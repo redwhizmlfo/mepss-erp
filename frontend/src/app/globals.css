@@ -2,6 +2,7 @@
 @import "../styles/auth.css";
 @import "../styles/layout.css";
 @import "../styles/dashboard.css";
+@import "../styles/admin.css";
 
 * {
   box-sizing: border-box;

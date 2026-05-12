@@ -69,7 +69,7 @@ export const navItems = [
   },
   {
     label: "Administracion",
-    path: "/admin",
+    path: "/admin/users",
     icon: Settings,
     permission: "usuarios",
     children: ["Usuarios", "Roles", "Permisos", "Auditoria"]

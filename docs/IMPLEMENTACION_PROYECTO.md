@@ -186,7 +186,11 @@ Checks:
 - [x] Recuperar sesion con `/auth/me`.
 - [x] Filtrar navbar por permisos `canView`.
 - [x] Crear logout en frontend.
-- [ ] Crear UI de administracion de usuarios.
+- [x] Crear UI de administracion de usuarios.
+- [x] Crear ruta `/admin/users`.
+- [x] Crear formulario rapido de usuario.
+- [x] Crear tabla de usuarios con estado, rol y permisos.
+- [x] Crear accion activar/desactivar desde frontend.
 - [ ] Crear UI de editor de permisos.
 
 Criterio de cierre:
@@ -197,6 +201,7 @@ Criterio de cierre:
 - Admin puede listar, crear, editar, activar/desactivar usuarios y reemplazar permisos.
 - Frontend muestra login si no hay sesion.
 - Frontend muestra dashboard y navbar permitido despues de login.
+- Frontend permite administrar usuarios desde `/admin/users`.
 
 Usuario local inicial:
 
@@ -218,9 +223,13 @@ Endpoints implementados:
 Frontend implementado:
 
 - `frontend/src/app/HomeClient.tsx`
+- `frontend/src/app/admin/users/page.tsx`
 - `frontend/src/features/auth/LoginView.tsx`
+- `frontend/src/features/auth/AuthGate.tsx`
+- `frontend/src/features/admin-users/AdminUsersView.tsx`
 - `frontend/src/lib/api.ts`
 - `frontend/src/styles/auth.css`
+- `frontend/src/styles/admin.css`
 
 ### Etapa 3: Catalogo e inventario
 

@@ -365,6 +365,41 @@ Criterios de aceptacion:
 - [x] Admin puede reemplazar permisos.
 - [x] Requests sin token devuelven `401`.
 
+### Issue #15: Crear administracion frontend de usuarios
+
+Tipo: Historia de usuario  
+Prioridad: Alta  
+Estado: In Progress  
+Sprint: Sprint 2  
+Responsable: Por asignar  
+Duracion: 3 dias
+
+Descripcion:
+
+Crear la pantalla inicial de administracion de usuarios en el frontend, conectada a los endpoints protegidos del backend.
+
+Checklist:
+
+- [x] Crear `AuthGate` reutilizable.
+- [x] Crear ruta `/admin/users`.
+- [x] Crear vista `AdminUsersView`.
+- [x] Consumir listado de usuarios.
+- [x] Consumir listado de roles.
+- [x] Crear formulario rapido de usuario.
+- [x] Crear tabla de usuarios.
+- [x] Mostrar rol, estado y permisos.
+- [x] Activar/desactivar usuario desde UI.
+- [x] Filtrar navbar por permisos.
+- [ ] Crear editor detallado de permisos.
+- [x] Validar build frontend.
+
+Criterios de aceptacion:
+
+- [x] La ruta `/admin/users` responde en Next.js.
+- [x] Usuario admin puede ver la pantalla.
+- [x] La UI mantiene el estilo luxury administrativo.
+- [x] El build de frontend pasa.
+
 Criterios de aceptacion:
 
 - Backend valida permisos.

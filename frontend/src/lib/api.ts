@@ -24,6 +24,34 @@ export type LoginResponse = {
   user: AuthUser;
 };
 
+export type Role = {
+  id: string;
+  code: string;
+  name: string;
+};
+
+export type AdminUser = {
+  id: string;
+  username: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+  lastAccessAt: string | null;
+  role: Role;
+  employee: AuthUser["employee"];
+  permissions: Permission[];
+};
+
+export type PaginatedUsers = {
+  data: AdminUser[];
+  meta: {
+    total: number;
+    page: number;
+    pageSize: number;
+    pageCount: number;
+  };
+};
+
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
 
 async function request<T>(path: string, options: RequestInit = {}) {
@@ -55,5 +83,49 @@ export function getMe(token: string) {
     headers: {
       Authorization: `Bearer ${token}`
     }
+  });
+}
+
+export function listUsers(token: string) {
+  return request<PaginatedUsers>("/users?pageSize=50", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
+
+export function listRoles(token: string) {
+  return request<Role[]>("/users/roles", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+}
+
+export function createUser(
+  token: string,
+  payload: {
+    username: string;
+    password: string;
+    roleId: string;
+    permissions: Permission[];
+  }
+) {
+  return request<AdminUser>("/users", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function updateUserStatus(token: string, userId: string, active: boolean) {
+  return request<AdminUser>(`/users/${userId}/status`, {
+    method: "PATCH",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ active })
   });
 }
