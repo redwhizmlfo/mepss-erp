@@ -26,4 +26,6 @@ npm run dev
 ## Gestion en GitHub
 
 - Flujo de Issues, Kanban, sprints y checks: `docs/GITHUB_ISSUES_KANBAN.md`.
+- Protocolo de sincronizacion con GitHub: `docs/PROTOCOLO_SINCRONIZACION_GITHUB.md`.
+- Referencias visuales del flujo de Issues/Kanban/GitFlow: `docs/REFERENCIAS_VISUALES_GITHUB.md`.
 - Plantilla de Issues: `.github/ISSUE_TEMPLATE/actividad.md`.

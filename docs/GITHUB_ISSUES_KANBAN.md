@@ -641,4 +641,6 @@ A medida que se implemente el proyecto:
 - Cada PR debe mencionar el Issue relacionado.
 - Cada modulo terminado debe actualizar la documentacion en `docs/`.
 - El tablero Kanban debe reflejar el estado real del trabajo.
-
+- Cada avance debe terminar con commit y push sincronizado a GitHub.
+- Las referencias visuales del flujo estan documentadas en `docs/REFERENCIAS_VISUALES_GITHUB.md`.
+- El protocolo operativo de sincronizacion esta en `docs/PROTOCOLO_SINCRONIZACION_GITHUB.md`.
