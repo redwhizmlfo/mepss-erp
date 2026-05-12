@@ -2,6 +2,7 @@
   display: grid;
   grid-template-columns: minmax(280px, 380px) minmax(0, 1fr);
   gap: 18px;
+  margin-bottom: 18px;
 }
 
 .adminForm {
@@ -103,6 +104,7 @@
   cursor: pointer;
   padding: 0 10px;
   font-weight: 800;
+  margin-right: 6px;
 }
 
 .tableAction:hover {
@@ -110,8 +112,119 @@
   color: var(--gold);
 }
 
+.permissionPanel {
+  margin-top: 0;
+}
+
+.permissionSave {
+  width: 210px;
+}
+
+.permissionToolbar {
+  display: flex;
+  margin-bottom: 14px;
+}
+
+.permissionToolbar label {
+  display: grid;
+  gap: 7px;
+  min-width: min(420px, 100%);
+  font-weight: 800;
+}
+
+.permissionToolbar select {
+  height: 42px;
+  border: 1px solid var(--line);
+  background: #fff7e8;
+  color: var(--ink);
+  padding: 0 12px;
+}
+
+.permissionMatrix {
+  display: grid;
+  border: 1px solid var(--line);
+  overflow-x: auto;
+}
+
+.permissionMatrixHead,
+.permissionMatrixRow {
+  display: grid;
+  grid-template-columns: minmax(180px, 1.4fr) repeat(4, minmax(78px, 0.45fr));
+  min-width: 560px;
+}
+
+.permissionMatrixHead {
+  background: #1b1813;
+  color: #fff6df;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 900;
+}
+
+.permissionMatrixHead span,
+.permissionMatrixRow strong,
+.permissionMatrixRow label {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  border-right: 1px solid rgba(223, 208, 180, 0.7);
+  border-bottom: 1px solid var(--line);
+}
+
+.permissionMatrixRow strong {
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.permissionToggle {
+  justify-content: center;
+  cursor: pointer;
+}
+
+.permissionToggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.permissionToggle span {
+  width: 38px;
+  height: 22px;
+  border: 1px solid var(--line);
+  background: #eee0c4;
+  position: relative;
+  transition: background 150ms ease, border-color 150ms ease;
+}
+
+.permissionToggle span::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 4px;
+  width: 14px;
+  height: 14px;
+  background: var(--muted);
+  transition: transform 150ms ease, background 150ms ease;
+}
+
+.permissionToggle input:checked + span {
+  background: rgba(18, 60, 54, 0.16);
+  border-color: var(--green);
+}
+
+.permissionToggle input:checked + span::after {
+  transform: translateX(15px);
+  background: var(--green);
+}
+
 @media (max-width: 1040px) {
   .adminGrid {
     grid-template-columns: 1fr;
+  }
+
+  .permissionSave {
+    width: 100%;
   }
 }

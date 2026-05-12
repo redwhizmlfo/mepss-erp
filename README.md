@@ -53,6 +53,7 @@ Frontend:
 - Variable opcional: `NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1`
 - Si no existe, Next.js usa `http://localhost:4000/api/v1`.
 - Administracion de usuarios: `http://localhost:3000/admin/users`
+- En esa vista se puede crear usuarios, activar/desactivar y editar permisos por modulo.
 
 ## Stack
 

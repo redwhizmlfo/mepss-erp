@@ -390,7 +390,9 @@ Checklist:
 - [x] Mostrar rol, estado y permisos.
 - [x] Activar/desactivar usuario desde UI.
 - [x] Filtrar navbar por permisos.
-- [ ] Crear editor detallado de permisos.
+- [x] Crear editor detallado de permisos.
+- [x] Guardar permisos desde frontend.
+- [x] Probar endpoint de permisos con token admin.
 - [x] Validar build frontend.
 
 Criterios de aceptacion:
@@ -399,6 +401,7 @@ Criterios de aceptacion:
 - [x] Usuario admin puede ver la pantalla.
 - [x] La UI mantiene el estilo luxury administrativo.
 - [x] El build de frontend pasa.
+- [x] El editor permite marcar Ver, Crear, Editar y Borrar por modulo.
 
 Criterios de aceptacion:
 

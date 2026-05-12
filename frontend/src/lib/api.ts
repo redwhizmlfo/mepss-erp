@@ -129,3 +129,13 @@ export function updateUserStatus(token: string, userId: string, active: boolean)
     body: JSON.stringify({ active })
   });
 }
+
+export function replaceUserPermissions(token: string, userId: string, permissions: Permission[]) {
+  return request<AdminUser>(`/users/${userId}/permissions`, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ permissions })
+  });
+}

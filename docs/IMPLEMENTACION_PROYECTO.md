@@ -191,7 +191,8 @@ Checks:
 - [x] Crear formulario rapido de usuario.
 - [x] Crear tabla de usuarios con estado, rol y permisos.
 - [x] Crear accion activar/desactivar desde frontend.
-- [ ] Crear UI de editor de permisos.
+- [x] Crear UI de editor de permisos.
+- [x] Guardar permisos desde frontend con `PUT /api/v1/users/:id/permissions`.
 
 Criterio de cierre:
 
@@ -202,6 +203,7 @@ Criterio de cierre:
 - Frontend muestra login si no hay sesion.
 - Frontend muestra dashboard y navbar permitido despues de login.
 - Frontend permite administrar usuarios desde `/admin/users`.
+- Frontend permite editar permisos por modulo y accion.
 
 Usuario local inicial:
 
