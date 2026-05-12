@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: luxury_ops_postgres
+    environment:
+      POSTGRES_DB: luxury_ops
+      POSTGRES_USER: luxury
+      POSTGRES_PASSWORD: luxury
+    ports:
+      - "5432:5432"
+    volumes:
+      - luxury_ops_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U luxury -d luxury_ops"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  luxury_ops_pgdata:

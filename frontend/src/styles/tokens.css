@@ -1,0 +1,16 @@
+:root {
+  --ink: #1d1a16;
+  --muted: #776f62;
+  --surface: #f5efe4;
+  --surface-strong: #fffaf0;
+  --line: #dfd0b4;
+  --gold: #9b7a2f;
+  --gold-soft: #efe2bd;
+  --green: #123c36;
+  --blue: #2c4c6b;
+  --red: #7d2424;
+  --copper: #6f3d2e;
+  --shadow: 0 20px 50px rgba(42, 32, 18, 0.12);
+  --font-body: "Aptos", "Segoe UI", sans-serif;
+  --font-display: Georgia, "Times New Roman", serif;
+}
