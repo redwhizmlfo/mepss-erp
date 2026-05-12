@@ -1,7 +1,23 @@
+"use client";
+
 import { Bell, Command, LogOut, Search } from "lucide-react";
+import { AuthUser } from "@/lib/api";
 import { navItems } from "./nav-items";
 
-export function AppShell({ children }: { children: React.ReactNode }) {
+type AppShellProps = {
+  children: React.ReactNode;
+  user: AuthUser;
+  onLogout: () => void;
+};
+
+export function AppShell({ children, user, onLogout }: AppShellProps) {
+  const allowedModules = new Set(
+    user.roleCode === "admin"
+      ? navItems.map((item) => item.permission)
+      : user.permissions.filter((permission) => permission.canView).map((permission) => permission.moduleKey)
+  );
+  const visibleItems = navItems.filter((item) => allowedModules.has(item.permission));
+
   return (
     <main className="shell">
       <aside className="sidebar">
@@ -14,7 +30,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         </div>
 
         <nav className="navList" aria-label="Modulos principales">
-          {navItems.map((item) => {
+          {visibleItems.map((item) => {
             const Icon = item.icon;
             return (
               <a href={item.path} className="navItem" key={item.label}>
@@ -38,10 +54,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <Bell size={18} />
             </button>
             <div className="userPill">
-              <span>Admin</span>
-              <small>Administrador</small>
+              <span>{user.username}</span>
+              <small>{user.roleName}</small>
             </div>
-            <button className="iconButton" aria-label="Cerrar sesion">
+            <button className="iconButton" aria-label="Cerrar sesion" onClick={onLogout}>
               <LogOut size={18} />
             </button>
           </div>

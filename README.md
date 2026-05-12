@@ -8,6 +8,7 @@ Monorepo para un sistema comercial con Next.js, React, CSS, Node.js, Express, Pr
 npm install
 docker compose up -d
 npm run prisma:migrate
+npm run seed -w backend
 npm run dev
 ```
 
@@ -46,6 +47,11 @@ Endpoints de administracion inicial:
 - `PUT /api/v1/users/:id`
 - `PATCH /api/v1/users/:id/status`
 - `PUT /api/v1/users/:id/permissions`
+
+Frontend:
+
+- Variable opcional: `NEXT_PUBLIC_API_URL=http://localhost:4000/api/v1`
+- Si no existe, Next.js usa `http://localhost:4000/api/v1`.
 
 ## Stack
 

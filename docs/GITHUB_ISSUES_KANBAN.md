@@ -291,6 +291,9 @@ Checklist:
 - [x] Documentar variables de entorno.
 - [x] Crear seed de admin local.
 - [x] Proteger dashboard por token.
+- [x] Crear UI de login.
+- [x] Persistir token en frontend.
+- [x] Crear logout.
 
 Criterios de aceptacion:
 
@@ -321,7 +324,7 @@ Checklist:
 - [x] Validar `can_delete`.
 - [x] Crear endpoint para reemplazar permisos.
 - [x] Crear seed de permisos admin.
-- [ ] Crear helper frontend para ocultar modulos.
+- [x] Crear helper frontend para ocultar modulos.
 - [x] Probar usuario admin.
 - [ ] Probar usuario empleado desde login.
 - [x] Documentar permisos iniciales.

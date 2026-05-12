@@ -181,7 +181,11 @@ Checks:
 - [x] Crear endpoint de roles.
 - [x] Crear actualizacion de estado de usuario.
 - [x] Crear actualizacion de permisos por modulo.
-- [ ] Crear UI de login.
+- [x] Crear UI de login.
+- [x] Persistir token en frontend.
+- [x] Recuperar sesion con `/auth/me`.
+- [x] Filtrar navbar por permisos `canView`.
+- [x] Crear logout en frontend.
 - [ ] Crear UI de administracion de usuarios.
 - [ ] Crear UI de editor de permisos.
 
@@ -191,6 +195,8 @@ Criterio de cierre:
 - Un usuario sin permiso no puede acceder al modulo protegido.
 - Admin puede listar roles.
 - Admin puede listar, crear, editar, activar/desactivar usuarios y reemplazar permisos.
+- Frontend muestra login si no hay sesion.
+- Frontend muestra dashboard y navbar permitido despues de login.
 
 Usuario local inicial:
 
@@ -208,6 +214,13 @@ Endpoints implementados:
 - `PUT /api/v1/users/:id`
 - `PATCH /api/v1/users/:id/status`
 - `PUT /api/v1/users/:id/permissions`
+
+Frontend implementado:
+
+- `frontend/src/app/HomeClient.tsx`
+- `frontend/src/features/auth/LoginView.tsx`
+- `frontend/src/lib/api.ts`
+- `frontend/src/styles/auth.css`
 
 ### Etapa 3: Catalogo e inventario
 
