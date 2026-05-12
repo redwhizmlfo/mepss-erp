@@ -4,7 +4,7 @@ import { z } from "zod";
 dotenv.config();
 
 const envSchema = z.object({
-  DATABASE_URL: z.string().min(1).default("postgresql://luxury:luxury@localhost:5432/luxury_ops?schema=public"),
+  DATABASE_URL: z.string().min(1).default("postgresql://postgres:admin%20123@localhost:55432/ferremas_db?schema=public"),
   PORT: z.coerce.number().default(4000),
   JWT_SECRET: z.string().min(8).default("change-me"),
   FRONTEND_URL: z.string().url().default("http://localhost:3000")

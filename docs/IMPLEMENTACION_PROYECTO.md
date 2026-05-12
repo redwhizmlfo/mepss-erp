@@ -132,6 +132,14 @@ npm run prisma:generate
 npm run dev
 ```
 
+Nota local:
+
+- PostgreSQL del proyecto usa el puerto host `55432`.
+- Base de datos local: `ferremas_db`.
+- Usuario local: `postgres`.
+- Password local: `admin 123`.
+- URL esperada: `postgresql://postgres:admin%20123@localhost:55432/ferremas_db?schema=public`.
+
 Criterio de cierre:
 
 - Frontend abre en `http://localhost:3000`.
@@ -497,4 +505,3 @@ Cada avance debe quedar reflejado en GitHub mediante:
 - Commit asociado.
 - Push a `origin/main` o a rama de feature.
 - Documentacion actualizada.
-

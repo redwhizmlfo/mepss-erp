@@ -11,6 +11,15 @@ npm run prisma:migrate
 npm run dev
 ```
 
+PostgreSQL del proyecto usa el puerto local `55432` para evitar choque con instalaciones locales en `5432`.
+
+Credenciales locales:
+
+- Base de datos: `ferremas_db`
+- Usuario: `postgres`
+- Password: `admin 123`
+- URL Prisma: `postgresql://postgres:admin%20123@localhost:55432/ferremas_db?schema=public`
+
 ## Apps
 
 - Frontend: `http://localhost:3000`
