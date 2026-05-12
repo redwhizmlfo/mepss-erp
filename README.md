@@ -37,6 +37,16 @@ Endpoints de autenticacion:
 - `POST /api/v1/auth/login`
 - `GET /api/v1/auth/me`
 
+Endpoints de administracion inicial:
+
+- `GET /api/v1/users/roles`
+- `GET /api/v1/users`
+- `POST /api/v1/users`
+- `GET /api/v1/users/:id`
+- `PUT /api/v1/users/:id`
+- `PATCH /api/v1/users/:id/status`
+- `PUT /api/v1/users/:id/permissions`
+
 ## Stack
 
 - Frontend: Next.js + React + CSS puro.

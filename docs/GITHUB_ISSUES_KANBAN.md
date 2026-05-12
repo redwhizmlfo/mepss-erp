@@ -302,7 +302,7 @@ Criterios de aceptacion:
 
 Tipo: Tarea  
 Prioridad: Alta  
-Estado: Backlog  
+Estado: In Progress  
 Sprint: Sprint 2  
 Responsable: Por asignar  
 Duracion: 3 dias
@@ -313,16 +313,54 @@ Implementar validacion de permisos usando `user_permissions` y `module_key`.
 
 Checklist:
 
-- Definir claves de modulos.
-- Crear middleware `requirePermission`.
-- Validar `can_view`.
-- Validar `can_create`.
-- Validar `can_edit`.
-- Validar `can_delete`.
-- Crear helper frontend para ocultar modulos.
-- Probar usuario admin.
-- Probar usuario empleado.
-- Documentar permisos iniciales.
+- [x] Definir claves de modulos.
+- [x] Crear middleware `requirePermission`.
+- [x] Validar `can_view`.
+- [x] Validar `can_create`.
+- [x] Validar `can_edit`.
+- [x] Validar `can_delete`.
+- [x] Crear endpoint para reemplazar permisos.
+- [x] Crear seed de permisos admin.
+- [ ] Crear helper frontend para ocultar modulos.
+- [x] Probar usuario admin.
+- [ ] Probar usuario empleado desde login.
+- [x] Documentar permisos iniciales.
+
+### Issue #14: Crear administracion backend de usuarios
+
+Tipo: Tarea  
+Prioridad: Alta  
+Estado: In Progress  
+Sprint: Sprint 2  
+Responsable: Por asignar  
+Duracion: 3 dias
+
+Descripcion:
+
+Crear endpoints protegidos para administrar usuarios, roles y permisos desde el backend.
+
+Checklist:
+
+- [x] Crear modulo `users`.
+- [x] Crear endpoint de roles.
+- [x] Crear endpoint de listado de usuarios.
+- [x] Crear endpoint de detalle de usuario.
+- [x] Crear endpoint de creacion de usuario.
+- [x] Crear endpoint de actualizacion de usuario.
+- [x] Crear endpoint de activacion/desactivacion.
+- [x] Crear endpoint de reemplazo de permisos.
+- [x] Proteger rutas con JWT.
+- [x] Proteger rutas con permisos.
+- [x] Probar acceso sin token.
+- [x] Probar flujo con admin.
+
+Criterios de aceptacion:
+
+- [x] Admin puede crear usuarios.
+- [x] Admin puede listar roles y usuarios.
+- [x] Admin puede cambiar estado de usuario.
+- [x] Admin puede reemplazar permisos.
+- [x] Requests sin token devuelven `401`.
 
 Criterios de aceptacion:
 

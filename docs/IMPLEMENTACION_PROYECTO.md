@@ -177,14 +177,20 @@ Checks:
 - [x] Crear middleware JWT.
 - [x] Crear middleware `requirePermission`.
 - [x] Crear seed de usuario admin local.
-- [ ] Crear CRUD de usuarios.
-- [ ] Crear editor de permisos por modulo.
+- [x] Crear endpoints de administracion de usuarios.
+- [x] Crear endpoint de roles.
+- [x] Crear actualizacion de estado de usuario.
+- [x] Crear actualizacion de permisos por modulo.
 - [ ] Crear UI de login.
+- [ ] Crear UI de administracion de usuarios.
+- [ ] Crear UI de editor de permisos.
 
 Criterio de cierre:
 
 - Un usuario puede iniciar sesion.
 - Un usuario sin permiso no puede acceder al modulo protegido.
+- Admin puede listar roles.
+- Admin puede listar, crear, editar, activar/desactivar usuarios y reemplazar permisos.
 
 Usuario local inicial:
 
@@ -192,6 +198,16 @@ Usuario local inicial:
 username: admin
 password: admin123
 ```
+
+Endpoints implementados:
+
+- `GET /api/v1/users/roles`
+- `GET /api/v1/users`
+- `POST /api/v1/users`
+- `GET /api/v1/users/:id`
+- `PUT /api/v1/users/:id`
+- `PATCH /api/v1/users/:id/status`
+- `PUT /api/v1/users/:id/permissions`
 
 ### Etapa 3: Catalogo e inventario
 
