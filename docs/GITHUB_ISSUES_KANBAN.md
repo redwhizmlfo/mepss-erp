@@ -267,7 +267,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: Backlog  
+Estado: In Progress  
 Sprint: Sprint 2  
 Responsable: Por asignar  
 Duracion: 4 dias
@@ -278,17 +278,19 @@ Permitir inicio de sesion seguro para usuarios registrados y proteger rutas del 
 
 Checklist:
 
-- Crear modulo `auth`.
-- Crear endpoint login.
-- Validar usuario y password.
-- Agregar hash con bcrypt.
-- Generar JWT.
-- Crear middleware de autenticacion.
-- Crear endpoint `/auth/me`.
-- Manejar usuario inactivo.
-- Probar login valido.
-- Probar login invalido.
-- Documentar variables de entorno.
+- [x] Crear modulo `auth`.
+- [x] Crear endpoint login.
+- [x] Validar usuario y password.
+- [x] Agregar hash con bcrypt.
+- [x] Generar JWT.
+- [x] Crear middleware de autenticacion.
+- [x] Crear endpoint `/auth/me`.
+- [x] Manejar usuario inactivo.
+- [x] Probar login valido.
+- [x] Probar login invalido.
+- [x] Documentar variables de entorno.
+- [x] Crear seed de admin local.
+- [x] Proteger dashboard por token.
 
 Criterios de aceptacion:
 

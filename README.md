@@ -25,6 +25,18 @@ Credenciales locales:
 - Frontend: `http://localhost:3000`
 - Backend: `http://localhost:4000/api/v1/health`
 
+## Usuario local inicial
+
+Despues de ejecutar `npm run seed -w backend`:
+
+- Usuario: `admin`
+- Password: `admin123`
+
+Endpoints de autenticacion:
+
+- `POST /api/v1/auth/login`
+- `GET /api/v1/auth/me`
+
 ## Stack
 
 - Frontend: Next.js + React + CSS puro.

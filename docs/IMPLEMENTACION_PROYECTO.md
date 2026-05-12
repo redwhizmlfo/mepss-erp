@@ -45,6 +45,9 @@ Ya existe:
 - Dashboard visual inicial.
 - Sidebar/navbar con modulos principales.
 - Documentacion de Issues, Kanban y sincronizacion GitHub.
+- Autenticacion JWT inicial.
+- Seed de usuario admin local.
+- Middleware base de autenticacion y permisos.
 
 Pendiente inmediato:
 
@@ -168,11 +171,12 @@ Frontend:
 
 Checks:
 
-- [ ] Crear hash de contrasena con bcrypt.
-- [ ] Crear endpoint `POST /api/v1/auth/login`.
-- [ ] Crear endpoint `GET /api/v1/auth/me`.
-- [ ] Crear middleware JWT.
-- [ ] Crear middleware `requirePermission`.
+- [x] Crear hash de contrasena con bcrypt.
+- [x] Crear endpoint `POST /api/v1/auth/login`.
+- [x] Crear endpoint `GET /api/v1/auth/me`.
+- [x] Crear middleware JWT.
+- [x] Crear middleware `requirePermission`.
+- [x] Crear seed de usuario admin local.
 - [ ] Crear CRUD de usuarios.
 - [ ] Crear editor de permisos por modulo.
 - [ ] Crear UI de login.
@@ -181,6 +185,13 @@ Criterio de cierre:
 
 - Un usuario puede iniciar sesion.
 - Un usuario sin permiso no puede acceder al modulo protegido.
+
+Usuario local inicial:
+
+```txt
+username: admin
+password: admin123
+```
 
 ### Etapa 3: Catalogo e inventario
 

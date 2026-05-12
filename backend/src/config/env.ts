@@ -7,7 +7,9 @@ const envSchema = z.object({
   DATABASE_URL: z.string().min(1).default("postgresql://postgres:admin%20123@localhost:55432/ferremas_db?schema=public"),
   PORT: z.coerce.number().default(4000),
   JWT_SECRET: z.string().min(8).default("change-me"),
-  FRONTEND_URL: z.string().url().default("http://localhost:3000")
+  FRONTEND_URL: z.string().url().default("http://localhost:3000"),
+  ADMIN_USERNAME: z.string().min(3).default("admin"),
+  ADMIN_PASSWORD: z.string().min(6).default("admin123")
 });
 
 export const env = envSchema.parse(process.env);
