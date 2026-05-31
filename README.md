@@ -1,4 +1,4 @@
-# Luxury Ops Suite
+# SISTEMA ERP ferreteria
 
 Monorepo para un sistema comercial con Next.js, React, CSS, Node.js, Express, Prisma y PostgreSQL.
 
