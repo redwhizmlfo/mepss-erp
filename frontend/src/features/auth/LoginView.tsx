@@ -70,6 +70,9 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
       </section>
 
       <aside className="authAside">
+        <div className="authImageWrap" aria-hidden="true">
+          <img src="/fere.png" alt="" />
+        </div>
         <div>
           <p className="eyebrow">Sesión inicial</p>
           <strong>admin / admin123</strong>
