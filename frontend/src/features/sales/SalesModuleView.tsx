@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart3, ReceiptText, ShoppingCart } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 
 export function SalesModuleView() {
   return (
@@ -9,11 +9,6 @@ export function SalesModuleView() {
         <div>
           <p className="eyebrow">Modulo</p>
           <h1>Ventas</h1>
-        </div>
-        <div className="moduleTabs" aria-label="Submodulos de ventas">
-          <a className="active" href="/sales">Panel</a>
-          <a href="/sales/pos">Punto de venta</a>
-          <a href="/sales/history">Historial</a>
         </div>
       </div>
 
@@ -25,25 +20,14 @@ export function SalesModuleView() {
         <BarChart3 size={44} />
       </div>
 
-      <div className="salesModuleCards">
-        <a className="salesModuleCard primary" href="/sales/pos">
-          <span className="salesModuleIcon"><ShoppingCart size={24} /></span>
+      <section className="panel">
+        <div className="panelHeader">
           <div>
-            <small>Submodulo</small>
-            <strong>Punto de venta</strong>
-            <p>Registra compras de clientes, selecciona productos, calcula totales y emite comprobantes.</p>
+            <h2>Submodulos en el panel lateral</h2>
+            <p>Usa el desglose de Ventas en el navbar para entrar a Punto de venta o Historial de ventas.</p>
           </div>
-        </a>
-
-        <a className="salesModuleCard" href="/sales/history">
-          <span className="salesModuleIcon"><ReceiptText size={24} /></span>
-          <div>
-            <small>Submodulo</small>
-            <strong>Historial de ventas</strong>
-            <p>Consulta movimientos de compra, clientes, productos vendidos, metodos de pago y totales.</p>
-          </div>
-        </a>
-      </div>
+        </div>
+      </section>
     </section>
   );
 }

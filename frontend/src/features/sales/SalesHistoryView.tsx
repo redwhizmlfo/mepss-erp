@@ -71,11 +71,6 @@ export function SalesHistoryView({ token }: { token: string }) {
           <p className="eyebrow">Ventas</p>
           <h1>Historial de ventas</h1>
         </div>
-        <div className="moduleTabs" aria-label="Submodulos de ventas">
-          <a href="/sales">Panel</a>
-          <a href="/sales/pos">Punto de venta</a>
-          <a className="active" href="/sales/history">Historial</a>
-        </div>
       </div>
 
       <form className="salesHistoryFilters" onSubmit={handleSubmit}>

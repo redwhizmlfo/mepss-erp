@@ -40,15 +40,34 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
               const Icon = item.icon;
 
               return (
-                <a
-                  href={item.path}
-                  className={`navItem${isActive ? " active" : ""}`}
-                  key={item.label}
-                  aria-current={isActive ? "page" : undefined}
-                >
-                  <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
-                  <span>{item.label}</span>
-                </a>
+                <div className="navGroup" key={item.label}>
+                  <a
+                    href={item.path}
+                    className={`navItem${isActive ? " active" : ""}`}
+                    aria-current={isActive ? "page" : undefined}
+                  >
+                    <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
+                    <span>{item.label}</span>
+                  </a>
+
+                  {isActive && item.subItems?.length ? (
+                    <div className="navSubLinks" aria-label={`Submodulos de ${item.label}`}>
+                      {item.subItems.map((subItem) => {
+                        const isSubActive = pathname === subItem.path;
+                        return (
+                          <a
+                            className={`navSubItem${isSubActive ? " active" : ""}`}
+                            href={subItem.path}
+                            key={subItem.path}
+                            aria-current={isSubActive ? "page" : undefined}
+                          >
+                            {subItem.label}
+                          </a>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                </div>
               );
             })}
           </nav>

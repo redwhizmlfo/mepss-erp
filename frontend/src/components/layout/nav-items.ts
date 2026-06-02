@@ -23,7 +23,11 @@ export const navItems = [
     path: "/sales",
     icon: ShoppingCart,
     permission: "ventas",
-    children: ["Punto de venta", "Historial", "Comprobantes", "Cierres"]
+    children: ["Punto de venta", "Historial", "Comprobantes", "Cierres"],
+    subItems: [
+      { label: "Punto de venta", path: "/sales/pos" },
+      { label: "Historial de ventas", path: "/sales/history" }
+    ]
   },
   {
     label: "Inventario",
