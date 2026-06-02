@@ -178,6 +178,7 @@ export type Customer = {
   documentType: string;
   documentNumber: string;
   name: string;
+  address: string | null;
   phone: string | null;
   email: string | null;
   active: boolean;
@@ -219,6 +220,58 @@ export type SaleResult = {
   voucherType: VoucherType;
   paymentMethod: PaymentMethod;
   client: Customer | null;
+};
+
+export type CustomerRecord = Customer & {
+  _count?: { sales: number };
+  sales?: Array<{ id: string; serie: string; total: number; createdAt: string }>;
+};
+
+export type CustomerDetail = Customer & {
+  sales: Array<SaleResult & {
+    createdAt: string;
+    employee: { id: string; fullName: string; position: string };
+    details: Array<{ id: string; productNameSnapshot: string; quantity: number; lineTotal: number }>;
+  }>;
+};
+
+export type EmployeeRecord = {
+  id: string;
+  fullName: string;
+  dni: string;
+  position: string;
+  phone: string | null;
+  hireDate: string;
+  dailyPay: number;
+  active: boolean;
+  users?: Array<{ id: string; username: string; active: boolean; role: Role }>;
+  _count?: { sales: number; attendance: number; payroll: number };
+};
+
+export type EmployeeDetail = EmployeeRecord & {
+  sales: Array<SaleResult & {
+    createdAt: string;
+    client: Customer | null;
+  }>;
+  attendance: Array<{
+    id: string;
+    workDate: string;
+    checkInTime: string | null;
+    checkOutTime: string | null;
+    status: string;
+    source: string;
+  }>;
+  payroll: Array<{
+    id: string;
+    slipNumber: string;
+    periodYear: number;
+    periodMonth: number;
+    daysWorked: number;
+    dailyPay: number;
+    subtotal: number;
+    discounts: number;
+    netTotal: number;
+  }>;
 };
 
 // ─── POS / VENTAS API FUNCTIONS ───────────────────────────────────────────
@@ -277,6 +330,104 @@ export function searchCustomers(token: string, query?: string) {
 
 export function createSale(token: string, payload: CreateSalePayload) {
   return request<SaleResult>("/sales", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function listCustomers(token: string, query?: string) {
+  const qs = query ? `?q=${encodeURIComponent(query)}` : "";
+  return request<CustomerRecord[]>(`/customers${qs}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+}
+
+export function getCustomer(token: string, customerId: string) {
+  return request<CustomerDetail>(`/customers/${customerId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+}
+
+export function createCustomer(token: string, payload: Partial<Customer>) {
+  return request<CustomerRecord>("/customers", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function updateCustomer(token: string, customerId: string, payload: Partial<Customer>) {
+  return request<CustomerRecord>(`/customers/${customerId}`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function updateCustomerStatus(token: string, customerId: string, active: boolean) {
+  return request<CustomerRecord>(`/customers/${customerId}/status`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ active })
+  });
+}
+
+export function listEmployees(token: string, query?: string) {
+  const qs = query ? `?q=${encodeURIComponent(query)}` : "";
+  return request<EmployeeRecord[]>(`/employees${qs}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+}
+
+export function getEmployee(token: string, employeeId: string) {
+  return request<EmployeeDetail>(`/employees/${employeeId}`, {
+    headers: { Authorization: `Bearer ${token}` }
+  });
+}
+
+export function createEmployee(token: string, payload: Partial<EmployeeRecord>) {
+  return request<EmployeeRecord>("/employees", {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function updateEmployee(token: string, employeeId: string, payload: Partial<EmployeeRecord>) {
+  return request<EmployeeRecord>(`/employees/${employeeId}`, {
+    method: "PUT",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function updateEmployeeStatus(token: string, employeeId: string, active: boolean) {
+  return request<EmployeeRecord>(`/employees/${employeeId}/status`, {
+    method: "PATCH",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ active })
+  });
+}
+
+export function saveEmployeeAttendance(
+  token: string,
+  employeeId: string,
+  payload: { workDate: string; checkInTime?: string; checkOutTime?: string; status: string }
+) {
+  return request(`/employees/${employeeId}/attendance`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: JSON.stringify(payload)
+  });
+}
+
+export function createEmployeePayroll(
+  token: string,
+  employeeId: string,
+  payload: { periodYear: number; periodMonth: number; discounts: number }
+) {
+  return request(`/employees/${employeeId}/payroll`, {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
     body: JSON.stringify(payload)

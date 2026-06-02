@@ -1,0 +1,100 @@
+.modulePage {
+  display: grid;
+  gap: 20px;
+}
+
+.moduleGrid {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
+  gap: 20px;
+}
+
+.moduleSplit {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.moduleDetail {
+  min-height: 220px;
+}
+
+.moduleSearch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: min(360px, 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 8px 10px;
+  border-radius: 10px;
+}
+
+.moduleSearch input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: var(--clr-on-surface);
+  outline: none;
+}
+
+.compactForm {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.compactForm .loginButton {
+  grid-column: 1 / -1;
+}
+
+.moduleCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.moduleCard {
+  min-height: 96px;
+  display: grid;
+  align-content: center;
+  gap: 7px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+  padding: 14px;
+  border-radius: 8px;
+}
+
+.moduleCard span {
+  color: rgba(226, 226, 226, 0.55);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 800;
+}
+
+.moduleCard strong {
+  color: var(--clr-on-surface);
+  font-size: 20px;
+}
+
+.moduleCard small,
+.moduleEmpty {
+  color: rgba(213, 196, 171, 0.55);
+}
+
+@media (max-width: 980px) {
+  .moduleGrid,
+  .moduleSplit {
+    grid-template-columns: 1fr;
+  }
+
+  .panelHeader {
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .moduleSearch {
+    width: 100%;
+  }
+}
