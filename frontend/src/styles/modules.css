@@ -19,6 +19,107 @@
   min-height: 220px;
 }
 
+.floatingAction {
+  position: fixed;
+  right: 28px;
+  bottom: 28px;
+  z-index: 80;
+  width: 58px;
+  height: 58px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 240, 0, 0.45);
+  border-radius: 999px;
+  background: linear-gradient(135deg, #FFB800, #FF9E2C);
+  color: #1a1200;
+  cursor: pointer;
+  box-shadow: 0 18px 42px rgba(255, 184, 0, 0.24);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.floatingAction:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 22px 54px rgba(255, 184, 0, 0.32);
+}
+
+.floatingAction.open {
+  background: var(--clr-surface-container-highest);
+  color: var(--clr-on-surface);
+  border-color: rgba(255, 255, 255, 0.16);
+}
+
+.sideDrawerBackdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 70;
+  pointer-events: none;
+  background: rgba(0, 0, 0, 0);
+  transition: background 0.2s;
+}
+
+.sideDrawerBackdrop.open {
+  pointer-events: auto;
+  background: rgba(0, 0, 0, 0.34);
+}
+
+.sideDrawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 90;
+  width: min(440px, calc(100vw - 18px));
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 18px;
+  padding: 28px;
+  background: rgba(20, 20, 20, 0.96);
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: -24px 0 60px rgba(0, 0, 0, 0.42);
+  transform: translateX(104%);
+  transition: transform 0.25s ease;
+  overflow-y: auto;
+}
+
+.sideDrawer.open {
+  transform: translateX(0);
+}
+
+.sideDrawerHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.sideDrawerHeader h2 {
+  color: var(--clr-on-surface);
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.drawerClose {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--clr-on-surface);
+  cursor: pointer;
+}
+
+.drawerClose:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.drawerForm {
+  align-content: start;
+}
+
 .moduleTabs {
   display: inline-flex;
   align-items: center;

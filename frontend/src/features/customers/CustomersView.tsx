@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { BadgePlus, RefreshCcw, Search, UserRound } from "lucide-react";
+import { BadgePlus, Plus, RefreshCcw, Search, UserRound, X } from "lucide-react";
 import {
   createCustomer,
   CustomerDetail,
@@ -31,6 +31,7 @@ export function CustomersView({ token }: { token: string }) {
   const [query, setQuery] = useState("");
   const [form, setForm] = useState(emptyForm);
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
@@ -62,6 +63,19 @@ export function CustomersView({ token }: { token: string }) {
     [selected]
   );
 
+  function openNewCustomer() {
+    setEditingId(null);
+    setForm(emptyForm);
+    setMessage(null);
+    setDrawerOpen(true);
+  }
+
+  function closeDrawer() {
+    setDrawerOpen(false);
+    setEditingId(null);
+    setForm(emptyForm);
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSaving(true);
@@ -78,6 +92,7 @@ export function CustomersView({ token }: { token: string }) {
       setForm(emptyForm);
       setEditingId(null);
       setSelected(null);
+      setDrawerOpen(false);
       await loadCustomers("");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "No se pudo guardar cliente");
@@ -96,6 +111,8 @@ export function CustomersView({ token }: { token: string }) {
       phone: customer.phone ?? "",
       email: customer.email ?? ""
     });
+    setMessage(null);
+    setDrawerOpen(true);
   }
 
   async function toggleStatus(customer: CustomerRecord) {
@@ -119,108 +136,114 @@ export function CustomersView({ token }: { token: string }) {
         </div>
       </div>
 
-      <div className="moduleGrid">
-        <section className="panel">
-          <div className="panelHeader">
-            <div>
-              <h2>{editingId ? "Editar cliente" : "Nuevo cliente"}</h2>
-              <p>Datos principales y contacto.</p>
-            </div>
-            <BadgePlus size={22} />
-          </div>
+      <button className={`floatingAction ${drawerOpen ? "open" : ""}`} type="button" onClick={() => (drawerOpen ? closeDrawer() : openNewCustomer())} aria-label={drawerOpen ? "Cerrar formulario de cliente" : "Registrar cliente"}>
+        {drawerOpen ? <X size={22} /> : <Plus size={22} />}
+      </button>
 
-          <form className="adminForm" onSubmit={handleSubmit}>
-            <label>
-              <span>Tipo documento</span>
-              <select value={form.documentType} onChange={(event) => setForm((current) => ({ ...current, documentType: event.target.value }))}>
-                <option value="DNI">DNI</option>
-                <option value="RUC">RUC</option>
-                <option value="CE">CE</option>
-              </select>
-            </label>
-            <label>
-              <span>Número documento</span>
-              <input value={form.documentNumber} onChange={(event) => setForm((current) => ({ ...current, documentNumber: event.target.value }))} required />
-            </label>
-            <label>
-              <span>Nombre</span>
-              <input value={form.name} onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))} required />
-            </label>
-            <label>
-              <span>Teléfono</span>
-              <input value={form.phone} onChange={(event) => setForm((current) => ({ ...current, phone: event.target.value }))} />
-            </label>
-            <label>
-              <span>Correo</span>
-              <input type="email" value={form.email} onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))} />
-            </label>
-            <label>
-              <span>Dirección</span>
-              <input value={form.address} onChange={(event) => setForm((current) => ({ ...current, address: event.target.value }))} />
-            </label>
-            {message ? <p className="formNote">{message}</p> : null}
-            <button className="loginButton" type="submit" disabled={saving}>
-              <span>{saving ? "Guardando..." : editingId ? "Actualizar cliente" : "Crear cliente"}</span>
+      <div className={`sideDrawerBackdrop ${drawerOpen ? "open" : ""}`} onClick={closeDrawer} />
+      <aside className={`sideDrawer ${drawerOpen ? "open" : ""}`} aria-hidden={!drawerOpen}>
+        <div className="sideDrawerHeader">
+          <div>
+            <p className="eyebrow">Registro</p>
+            <h2>{editingId ? "Editar cliente" : "Nuevo cliente"}</h2>
+          </div>
+          <button className="drawerClose" onClick={closeDrawer} type="button" aria-label="Cerrar formulario">
+            <X size={20} />
+          </button>
+        </div>
+
+        <form className="adminForm drawerForm" onSubmit={handleSubmit}>
+          <label>
+            <span>Tipo documento</span>
+            <select value={form.documentType} onChange={(event) => setForm((current) => ({ ...current, documentType: event.target.value }))}>
+              <option value="DNI">DNI</option>
+              <option value="RUC">RUC</option>
+              <option value="CE">CE</option>
+            </select>
+          </label>
+          <label>
+            <span>Número documento</span>
+            <input value={form.documentNumber} onChange={(event) => setForm((current) => ({ ...current, documentNumber: event.target.value }))} required />
+          </label>
+          <label>
+            <span>Nombre</span>
+            <input value={form.name} onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))} required />
+          </label>
+          <label>
+            <span>Teléfono</span>
+            <input value={form.phone} onChange={(event) => setForm((current) => ({ ...current, phone: event.target.value }))} />
+          </label>
+          <label>
+            <span>Correo</span>
+            <input type="email" value={form.email} onChange={(event) => setForm((current) => ({ ...current, email: event.target.value }))} />
+          </label>
+          <label>
+            <span>Dirección</span>
+            <input value={form.address} onChange={(event) => setForm((current) => ({ ...current, address: event.target.value }))} />
+          </label>
+          {message ? <p className="formNote">{message}</p> : null}
+          <button className="loginButton" type="submit" disabled={saving}>
+            <span>{saving ? "Guardando..." : editingId ? "Actualizar cliente" : "Crear cliente"}</span>
+            <BadgePlus size={18} />
+          </button>
+        </form>
+      </aside>
+
+      <section className="panel wide">
+        <div className="panelHeader">
+          <div>
+            <h2>Directorio de clientes</h2>
+            <p>Clientes registrados y cantidad de ventas.</p>
+          </div>
+          <div className="moduleSearch">
+            <Search size={16} />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadCustomers(query)} placeholder="Buscar cliente" />
+            <button className="tableAction" onClick={() => loadCustomers(query)} type="button">
+              <RefreshCcw size={14} />
             </button>
-          </form>
-        </section>
-
-        <section className="panel wide">
-          <div className="panelHeader">
-            <div>
-              <h2>Directorio de clientes</h2>
-              <p>Clientes registrados y cantidad de ventas.</p>
-            </div>
-            <div className="moduleSearch">
-              <Search size={16} />
-              <input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadCustomers(query)} placeholder="Buscar cliente" />
-              <button className="tableAction" onClick={() => loadCustomers(query)} type="button">
-                <RefreshCcw size={14} />
-              </button>
-            </div>
           </div>
+        </div>
 
-          <div className="adminTableWrap">
-            <table className="adminTable">
-              <thead>
-                <tr>
-                  <th>Cliente</th>
-                  <th>Documento</th>
-                  <th>Contacto</th>
-                  <th>Ventas</th>
-                  <th>Estado</th>
-                  <th>Acción</th>
+        <div className="adminTableWrap">
+          <table className="adminTable">
+            <thead>
+              <tr>
+                <th>Cliente</th>
+                <th>Documento</th>
+                <th>Contacto</th>
+                <th>Ventas</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.map((customer) => (
+                <tr key={customer.id}>
+                  <td>
+                    <strong>{customer.name}</strong>
+                    <small>{customer.address || "Sin dirección"}</small>
+                  </td>
+                  <td>{customer.documentType} {customer.documentNumber}</td>
+                  <td>
+                    <strong>{customer.phone || "-"}</strong>
+                    <small>{customer.email || "Sin correo"}</small>
+                  </td>
+                  <td>{customer._count?.sales ?? 0}</td>
+                  <td><span className={`statusPill ${customer.active ? "active" : "inactive"}`}>{customer.active ? "Activo" : "Inactivo"}</span></td>
+                  <td>
+                    <button className="tableAction" onClick={() => selectCustomer(customer.id)}>Ventas</button>
+                    <button className="tableAction" onClick={() => editCustomer(customer)}>Editar</button>
+                    <button className="tableAction" onClick={() => toggleStatus(customer)}>{customer.active ? "Desactivar" : "Activar"}</button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {customers.map((customer) => (
-                  <tr key={customer.id}>
-                    <td>
-                      <strong>{customer.name}</strong>
-                      <small>{customer.address || "Sin dirección"}</small>
-                    </td>
-                    <td>{customer.documentType} {customer.documentNumber}</td>
-                    <td>
-                      <strong>{customer.phone || "-"}</strong>
-                      <small>{customer.email || "Sin correo"}</small>
-                    </td>
-                    <td>{customer._count?.sales ?? 0}</td>
-                    <td><span className={`statusPill ${customer.active ? "active" : "inactive"}`}>{customer.active ? "Activo" : "Inactivo"}</span></td>
-                    <td>
-                      <button className="tableAction" onClick={() => selectCustomer(customer.id)}>Ventas</button>
-                      <button className="tableAction" onClick={() => editCustomer(customer)}>Editar</button>
-                      <button className="tableAction" onClick={() => toggleStatus(customer)}>{customer.active ? "Desactivar" : "Activar"}</button>
-                    </td>
-                  </tr>
-                ))}
-                {!customers.length && !loading ? (
-                  <tr><td colSpan={6}>No hay clientes registrados.</td></tr>
-                ) : null}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
+              ))}
+              {!customers.length && !loading ? (
+                <tr><td colSpan={6}>No hay clientes registrados.</td></tr>
+              ) : null}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <section className="panel moduleDetail">
         <div className="panelHeader">
