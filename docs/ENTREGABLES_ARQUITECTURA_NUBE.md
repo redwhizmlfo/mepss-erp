@@ -177,13 +177,13 @@ El sistema MEPSS ERP esta construido con arquitectura cliente-servidor. El clien
 
 ## 9. Checklist de entrega
 
-- [ ] Diagrama o descripcion de arquitectura cliente-servidor.
-- [ ] URL del frontend en la nube.
-- [ ] URL del backend en la nube.
-- [ ] URL de prueba del backend `/api/v1/health`.
-- [ ] Nombre del proveedor de base de datos cloud.
-- [ ] Connection string de la base cloud con contraseña oculta.
+- [x] Diagrama o descripcion de arquitectura cliente-servidor.
+- [x] URL del frontend en la nube.
+- [x] URL del backend en la nube.
+- [x] URL de prueba del backend `/api/v1/health`.
+- [x] Nombre del proveedor de base de datos cloud.
+- [x] Connection string de la base cloud con contraseña oculta.
 - [ ] Captura de base local/fisica.
 - [ ] Captura de base en la nube.
-- [ ] Archivo `schema.sql`.
+- [x] Archivo `schema.sql`.
 - [ ] Captura del sistema funcionando en la nube.

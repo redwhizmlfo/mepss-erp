@@ -1,9 +1,6 @@
 ﻿-- CreateSchema
 CREATE SCHEMA IF NOT EXISTS "public";
 
--- Enable UUID generation
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
 -- CreateTable
 CREATE TABLE "roles" (
     "id" UUID NOT NULL DEFAULT gen_random_uuid(),
