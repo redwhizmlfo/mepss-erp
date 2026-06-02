@@ -73,18 +73,6 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
         <div className="authImageWrap" aria-hidden="true">
           <img src="/fere.png" alt="" />
         </div>
-        <div>
-          <p className="eyebrow">Sesión inicial</p>
-          <strong>admin / admin123</strong>
-        </div>
-        <div>
-          <p className="eyebrow">Tecnología</p>
-          <strong>Next.js + Node + Prisma</strong>
-        </div>
-        <div>
-          <p className="eyebrow">Base de datos</p>
-          <strong>ferremas_db</strong>
-        </div>
       </aside>
     </main>
   );
