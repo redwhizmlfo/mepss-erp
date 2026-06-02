@@ -41,18 +41,6 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
   return (
     <>
       <main className={`shell${sidebarOpen ? "" : " sidebarCollapsed"}`}>
-        <button
-          className={`sidebarToggle${sidebarOpen ? " open" : ""}`}
-          type="button"
-          onClick={toggleSidebar}
-          aria-label={sidebarOpen ? "Ocultar menu lateral" : "Mostrar menu lateral"}
-          aria-expanded={sidebarOpen}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
-
         <aside className="sidebarNav">
           <div className="navBrand">
             <span className="brandName">MEPSS ERP</span>
@@ -112,7 +100,20 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
         </aside>
 
         <header className="topNavbar">
-          <div className="headerTitle">Panel de Control</div>
+          <div className="headerLeft">
+            <button
+              className={`sidebarToggle${sidebarOpen ? " open" : ""}`}
+              type="button"
+              onClick={toggleSidebar}
+              aria-label={sidebarOpen ? "Ocultar menu lateral" : "Mostrar menu lateral"}
+              aria-expanded={sidebarOpen}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+            <div className="headerTitle">Panel de Control</div>
+          </div>
 
           <div className="searchBar">
             <Search size={16} />
