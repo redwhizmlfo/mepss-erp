@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { BriefcaseBusiness, CalendarDays, Plus, ReceiptText, RefreshCcw, Search, X } from "lucide-react";
+import { BriefcaseBusiness, Plus, RefreshCcw, Search, X } from "lucide-react";
 import {
   createEmployee,
   EmployeeDetail,
@@ -195,19 +195,6 @@ export function EmployeesView({ token }: { token: string }) {
           {selected && !selected.sales.length ? <p className="moduleEmpty">Este empleado aún no registra ventas.</p> : null}
         </div>
       </section>
-
-      <div className="moduleCards">
-        <a className="moduleCard moduleLink" href="/employees/attendance">
-          <CalendarDays size={20} />
-          <strong>Asistencias</strong>
-          <small>Registro diario en su propio submódulo.</small>
-        </a>
-        <a className="moduleCard moduleLink" href="/employees/payroll">
-          <ReceiptText size={20} />
-          <strong>Boletas</strong>
-          <small>Generación de pagos en su propio submódulo.</small>
-        </a>
-      </div>
 
       <button className={`floatingAction ${drawerOpen ? "open" : ""}`} type="button" onClick={drawerOpen ? closeDrawer : openNewEmployee} aria-label={drawerOpen ? "Cerrar registro de empleado" : "Abrir registro de empleado"}>
         {drawerOpen ? <X size={24} /> : <Plus size={26} />}
