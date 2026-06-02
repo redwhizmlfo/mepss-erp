@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Bell, LogOut, Search, Settings, ShieldCheck, UserCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AuthUser } from "@/lib/api";
@@ -14,6 +14,22 @@ type AppShellProps = {
 
 export function AppShell({ children, user, onLogout }: AppShellProps) {
   const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+
+  useEffect(() => {
+    const stored = window.localStorage.getItem("mepss_sidebar_open");
+    if (stored) {
+      setSidebarOpen(stored === "true");
+    }
+  }, []);
+
+  function toggleSidebar() {
+    setSidebarOpen((current) => {
+      const next = !current;
+      window.localStorage.setItem("mepss_sidebar_open", String(next));
+      return next;
+    });
+  }
 
   const allowedModules = new Set(
     user.roleCode === "admin"
@@ -24,7 +40,19 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
 
   return (
     <>
-      <main className="shell">
+      <main className={`shell${sidebarOpen ? "" : " sidebarCollapsed"}`}>
+        <button
+          className={`sidebarToggle${sidebarOpen ? " open" : ""}`}
+          type="button"
+          onClick={toggleSidebar}
+          aria-label={sidebarOpen ? "Ocultar menu lateral" : "Mostrar menu lateral"}
+          aria-expanded={sidebarOpen}
+        >
+          <span />
+          <span />
+          <span />
+        </button>
+
         <aside className="sidebarNav">
           <div className="navBrand">
             <span className="brandName">MEPSS ERP</span>
