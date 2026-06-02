@@ -14,8 +14,24 @@ import { HttpError } from "./shared/http-error.js";
 
 export const app = express();
 
+const allowedOrigins = new Set([
+  env.FRONTEND_URL,
+  "http://localhost:3000",
+  "https://mepss-erp-frontend.vercel.app"
+]);
+
 app.use(helmet());
-app.use(cors({ origin: env.FRONTEND_URL, credentials: true }));
+app.use(cors({
+  origin(origin, callback) {
+    if (!origin || allowedOrigins.has(origin)) {
+      callback(null, true);
+      return;
+    }
+
+    callback(new Error(`Origen no permitido por CORS: ${origin}`));
+  },
+  credentials: true
+}));
 app.use(express.json());
 app.use(morgan("dev"));
 

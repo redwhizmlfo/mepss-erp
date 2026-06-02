@@ -26,13 +26,13 @@ Cuando el proyecto esté en la nube, se deben entregar estas URL:
 
 ```txt
 URL del frontend:
-https://TU-FRONTEND.vercel.app
+https://mepss-erp-frontend.vercel.app
 
 URL del backend:
-https://TU-BACKEND.onrender.com/api/v1
+https://mepss-erp-api.onrender.com/api/v1
 
 URL de prueba del backend:
-https://TU-BACKEND.onrender.com/api/v1/health
+https://mepss-erp-api.onrender.com/api/v1/health
 
 URL o connection string de la base de datos:
 postgresql://USUARIO:CONTRASENA@HOST:PUERTO/NOMBRE_DB?sslmode=require
@@ -68,6 +68,14 @@ Para esta entrega se recomienda decir:
 Proveedor elegido para la base de datos en la nube: Neon PostgreSQL.
 Motor de base de datos: PostgreSQL.
 ORM usado por el backend: Prisma.
+```
+
+Proyecto Neon:
+
+```txt
+Nombre: mepss-erp
+Base de datos: neondb
+Region: aws-sa-east-1
 ```
 
 ## 4. Base de datos fisica/local
@@ -135,6 +143,14 @@ Para que todo el proyecto quede en la nube:
 - Frontend Next.js: desplegar en Vercel.
 - Backend Node.js/Express: desplegar en Render.
 - Base de datos PostgreSQL: desplegar en Neon PostgreSQL.
+
+URLs reales del despliegue:
+
+```txt
+Frontend: https://mepss-erp-frontend.vercel.app
+Backend: https://mepss-erp-api.onrender.com/api/v1
+Health: https://mepss-erp-api.onrender.com/api/v1/health
+```
 
 Variables de entorno necesarias en backend:
 

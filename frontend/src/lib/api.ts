@@ -52,7 +52,11 @@ export type PaginatedUsers = {
   };
 };
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:4000/api/v1";
+const API_URL =
+  process.env.NEXT_PUBLIC_API_URL ??
+  (process.env.NODE_ENV === "production"
+    ? "https://mepss-erp-api.onrender.com/api/v1"
+    : "http://localhost:4000/api/v1");
 
 async function request<T>(path: string, options: RequestInit = {}) {
   const response = await fetch(`${API_URL}${path}`, {

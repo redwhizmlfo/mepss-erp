@@ -48,7 +48,7 @@ Nota: en el plan gratuito de Render no se usa `preDeployCommand`. Las migracione
 URL de prueba del backend:
 
 ```txt
-https://tu-backend.onrender.com/api/v1/health
+https://mepss-erp-api.onrender.com/api/v1/health
 ```
 
 ## 3. Desplegar frontend en Vercel
@@ -74,7 +74,7 @@ NEXT_PUBLIC_API_URL=https://tu-backend.onrender.com/api/v1
 URL final del frontend:
 
 ```txt
-https://tu-frontend.vercel.app
+https://mepss-erp-frontend.vercel.app
 ```
 
 ## 4. Ajuste final de CORS
@@ -82,7 +82,7 @@ https://tu-frontend.vercel.app
 Cuando Vercel entregue la URL final, volver a Render y actualizar:
 
 ```txt
-FRONTEND_URL=https://tu-frontend.vercel.app
+FRONTEND_URL=https://mepss-erp-frontend.vercel.app
 ```
 
 Luego redeploy del backend.
