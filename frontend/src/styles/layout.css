@@ -249,32 +249,59 @@
   padding-top: 16px;
 }
 
+.navItemRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--clr-on-surface-variant);
+  transition: all 0.1s ease;
+  border-left: 3px solid transparent;
+}
+
 .navItem {
+  min-width: 0;
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 14px 20px;
-  color: var(--clr-on-surface-variant);
+  padding: 14px 0 14px 17px;
+  color: inherit;
   text-decoration: none;
   font-family: var(--font-mono);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  transition: all 0.1s ease;
-  border-left: 3px solid transparent;
 }
 
-.navItem:hover {
+.navItemRow:hover {
   color: var(--clr-on-surface);
   background: var(--clr-surface-container-high);
 }
 
-.navItem.active,
-.navItem[aria-current="page"] {
+.navItemRow.active {
   background: var(--clr-primary);
   color: #000;
   border-left: 3px solid var(--clr-primary);
+}
+
+.navAccordionBtn {
+  width: 38px;
+  height: 42px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.navAccordionBtn svg {
+  transition: transform 0.22s ease;
+}
+
+.navAccordionBtn.open svg {
+  transform: rotate(180deg);
 }
 
 .navGroup {
@@ -284,9 +311,19 @@
 .navSubLinks {
   display: grid;
   gap: 3px;
-  padding: 8px 12px 10px 38px;
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 12px 0 38px;
   background: rgba(255, 240, 0, 0.06);
   border-left: 3px solid var(--clr-primary);
+  opacity: 0;
+  transition: max-height 0.24s ease, padding 0.24s ease, opacity 0.18s ease;
+}
+
+.navSubLinks.open {
+  max-height: 160px;
+  padding: 8px 12px 10px 38px;
+  opacity: 1;
 }
 
 .navSubItem {

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Bell, LogOut, Search, Settings, ShieldCheck, UserCircle } from "lucide-react";
+import { Bell, ChevronDown, LogOut, Search, Settings, ShieldCheck, UserCircle } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { AuthUser } from "@/lib/api";
 import { navItems } from "./nav-items";
@@ -15,11 +15,21 @@ type AppShellProps = {
 export function AppShell({ children, user, onLogout }: AppShellProps) {
   const pathname = usePathname();
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const stored = window.localStorage.getItem("mepss_sidebar_open");
     if (stored) {
       setSidebarOpen(stored === "true");
+    }
+
+    const storedGroups = window.localStorage.getItem("mepss_sidebar_groups");
+    if (storedGroups) {
+      try {
+        setOpenGroups(JSON.parse(storedGroups) as Record<string, boolean>);
+      } catch {
+        window.localStorage.removeItem("mepss_sidebar_groups");
+      }
     }
   }, []);
 
@@ -27,6 +37,14 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
     setSidebarOpen((current) => {
       const next = !current;
       window.localStorage.setItem("mepss_sidebar_open", String(next));
+      return next;
+    });
+  }
+
+  function toggleGroup(key: string) {
+    setOpenGroups((current) => {
+      const next = { ...current, [key]: !current[key] };
+      window.localStorage.setItem("mepss_sidebar_groups", JSON.stringify(next));
       return next;
     });
   }
@@ -53,22 +71,38 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
                 pathname === item.path ||
                 (item.path !== "/" && pathname?.startsWith(item.path)) ||
                 (item.permission === "ventas" && pathname?.startsWith("/sales"));
+              const subItems = item.subItems ?? [];
+              const hasSubItems = subItems.length > 0;
+              const isGroupOpen = hasSubItems && (openGroups[item.permission] ?? isActive);
               const Icon = item.icon;
 
               return (
                 <div className="navGroup" key={item.label}>
-                  <a
-                    href={item.path}
-                    className={`navItem${isActive ? " active" : ""}`}
-                    aria-current={isActive ? "page" : undefined}
-                  >
+                  <div className={`navItemRow${isActive ? " active" : ""}`}>
+                    <a
+                      href={item.path}
+                      className="navItem"
+                      aria-current={isActive ? "page" : undefined}
+                    >
                     <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
                     <span>{item.label}</span>
-                  </a>
+                    </a>
+                    {hasSubItems ? (
+                      <button
+                        className={`navAccordionBtn${isGroupOpen ? " open" : ""}`}
+                        type="button"
+                        onClick={() => toggleGroup(item.permission)}
+                        aria-label={isGroupOpen ? `Ocultar submodulos de ${item.label}` : `Mostrar submodulos de ${item.label}`}
+                        aria-expanded={isGroupOpen}
+                      >
+                        <ChevronDown size={16} />
+                      </button>
+                    ) : null}
+                  </div>
 
-                  {isActive && item.subItems?.length ? (
-                    <div className="navSubLinks" aria-label={`Submodulos de ${item.label}`}>
-                      {item.subItems.map((subItem) => {
+                  {hasSubItems ? (
+                    <div className={`navSubLinks${isGroupOpen ? " open" : ""}`} aria-label={`Submodulos de ${item.label}`}>
+                      {subItems.map((subItem) => {
                         const isSubActive = pathname === subItem.path;
                         return (
                           <a
