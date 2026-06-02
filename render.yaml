@@ -4,8 +4,6 @@ services:
     runtime: node
     plan: free
     buildCommand: npm ci && npm run prisma:generate -w backend && npm run build -w backend
-    preDeployCommand: npm run prisma:migrate -w backend
-    initialDeployHook: npm run seed -w backend
     startCommand: npm run start -w backend
     healthCheckPath: /api/v1/health
     envVars:

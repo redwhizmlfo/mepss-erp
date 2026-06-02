@@ -40,10 +40,10 @@ Render ejecutara:
 
 ```txt
 Build: npm ci && npm run prisma:generate -w backend && npm run build -w backend
-Predeploy: npm run prisma:migrate -w backend
-Primer despliegue: npm run seed -w backend
 Start: npm run start -w backend
 ```
+
+Nota: en el plan gratuito de Render no se usa `preDeployCommand`. Las migraciones y el seed se ejecutan manualmente contra Neon antes del despliegue.
 
 URL de prueba del backend:
 
