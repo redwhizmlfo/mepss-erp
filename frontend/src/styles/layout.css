@@ -274,6 +274,13 @@
   text-transform: uppercase;
 }
 
+.navItemButton {
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+}
+
 .navItemRow:hover {
   color: var(--clr-on-surface);
   background: var(--clr-surface-container-high);

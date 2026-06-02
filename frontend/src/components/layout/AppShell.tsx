@@ -79,14 +79,28 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
               return (
                 <div className="navGroup" key={item.label}>
                   <div className={`navItemRow${isActive ? " active" : ""}`}>
-                    <a
-                      href={item.path}
-                      className="navItem"
-                      aria-current={isActive ? "page" : undefined}
-                    >
-                    <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
-                    <span>{item.label}</span>
-                    </a>
+                    {hasSubItems ? (
+                      <button
+                        className="navItem navItemButton"
+                        type="button"
+                        onClick={() => toggleGroup(item.permission)}
+                        aria-current={isActive ? "page" : undefined}
+                        aria-expanded={isGroupOpen}
+                      >
+                        <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
+                        <span>{item.label}</span>
+                      </button>
+                    ) : (
+                      <a
+                        href={item.path}
+                        className="navItem"
+                        aria-current={isActive ? "page" : undefined}
+                      >
+                        <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
+                        <span>{item.label}</span>
+                      </a>
+                    )}
+
                     {hasSubItems ? (
                       <button
                         className={`navAccordionBtn${isGroupOpen ? " open" : ""}`}
