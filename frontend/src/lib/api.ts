@@ -222,6 +222,29 @@ export type SaleResult = {
   client: Customer | null;
 };
 
+export type SaleHistoryRecord = SaleResult & {
+  saleDate: string;
+  saleTime: string;
+  createdAt: string;
+  discountPct: number;
+  employee: { id: string; fullName: string; position: string };
+  details: Array<{
+    id: string;
+    productNameSnapshot: string;
+    quantity: number;
+    unitPrice: number;
+    lineTotal: number;
+    product: {
+      id: string;
+      name: string;
+      slug: string;
+      modelCode: string | null;
+      unitName: string;
+      imageUrl: string | null;
+    };
+  }>;
+};
+
 export type CustomerRecord = Customer & {
   _count?: { sales: number };
   sales?: Array<{ id: string; serie: string; total: number; createdAt: string }>;
@@ -333,6 +356,22 @@ export function createSale(token: string, payload: CreateSalePayload) {
     method: "POST",
     headers: { Authorization: `Bearer ${token}` },
     body: JSON.stringify(payload)
+  });
+}
+
+export function listSalesHistory(
+  token: string,
+  filters: { q?: string; from?: string; to?: string; take?: number } = {}
+) {
+  const params = new URLSearchParams();
+  if (filters.q) params.set("q", filters.q);
+  if (filters.from) params.set("from", filters.from);
+  if (filters.to) params.set("to", filters.to);
+  if (filters.take) params.set("take", String(filters.take));
+  const qs = params.toString();
+
+  return request<SaleHistoryRecord[]>(`/sales${qs ? `?${qs}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` }
   });
 }
 

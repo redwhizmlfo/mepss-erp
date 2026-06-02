@@ -9,6 +9,64 @@ export const salesRouter = Router();
 // Todas las rutas de ventas requieren autenticación
 salesRouter.use(authenticate);
 
+// 0. Historial de ventas con productos comprados
+salesRouter.get(
+  "/",
+  asyncHandler(async (req, res) => {
+    const q = req.query.q as string | undefined;
+    const from = req.query.from as string | undefined;
+    const to = req.query.to as string | undefined;
+    const take = Math.min(Number(req.query.take ?? 80), 200);
+
+    const where: any = {};
+
+    if (from || to) {
+      where.saleDate = {};
+      if (from) where.saleDate.gte = new Date(from);
+      if (to) where.saleDate.lte = new Date(to);
+    }
+
+    if (q) {
+      where.OR = [
+        { serie: { contains: q, mode: "insensitive" } },
+        { client: { name: { contains: q, mode: "insensitive" } } },
+        { client: { documentNumber: { contains: q, mode: "insensitive" } } },
+        { employee: { fullName: { contains: q, mode: "insensitive" } } },
+        { details: { some: { productNameSnapshot: { contains: q, mode: "insensitive" } } } }
+      ];
+    }
+
+    const sales = await prisma.sale.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      take,
+      include: {
+        voucherType: true,
+        paymentMethod: true,
+        client: true,
+        employee: true,
+        details: {
+          orderBy: { createdAt: "asc" },
+          include: {
+            product: {
+              select: {
+                id: true,
+                name: true,
+                slug: true,
+                modelCode: true,
+                unitName: true,
+                imageUrl: true
+              }
+            }
+          }
+        }
+      }
+    });
+
+    res.json(sales);
+  })
+);
+
 // 1. Obtener métodos de pago activos
 salesRouter.get(
   "/payment-methods",

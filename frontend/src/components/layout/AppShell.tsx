@@ -35,7 +35,8 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
             {visibleItems.map((item) => {
               const isActive =
                 pathname === item.path ||
-                (item.path !== "/" && pathname?.startsWith(item.path));
+                (item.path !== "/" && pathname?.startsWith(item.path)) ||
+                (item.permission === "ventas" && pathname?.startsWith("/sales"));
               const Icon = item.icon;
 
               return (

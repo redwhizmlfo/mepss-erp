@@ -210,6 +210,11 @@ export function SalesPosView({
           </div>
         </div>
 
+        <div className="moduleTabs salesTabs" aria-label="Submodulos de ventas">
+          <a className="active" href="/sales/pos">Punto de venta</a>
+          <a href="/sales/history">Historial</a>
+        </div>
+
         {/* Category Tabs */}
         <div className="categoryTabs">
           <button
