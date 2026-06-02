@@ -12,19 +12,34 @@ npm run seed -w backend
 npm run dev
 ```
 
-PostgreSQL del proyecto usa el puerto local `55432` para evitar choque con instalaciones locales en `5432`.
+PostgreSQL del proyecto usa el puerto local `54320` para evitar choque con instalaciones locales en `5432`.
 
 Credenciales locales:
 
 - Base de datos: `ferremas_db`
 - Usuario: `postgres`
 - Password: `admin 123`
-- URL Prisma: `postgresql://postgres:admin%20123@localhost:55432/ferremas_db?schema=public`
+- URL Prisma: `postgresql://postgres:admin%20123@localhost:54320/ferremas_db?schema=public`
 
 ## Apps
 
 - Frontend: `http://localhost:3000`
 - Backend: `http://localhost:4000/api/v1/health`
+
+## Despliegue en nube
+
+Proveedores recomendados para la entrega:
+
+- Frontend: Vercel.
+- Backend: Render.
+- Base de datos: Neon PostgreSQL.
+
+Archivos de apoyo:
+
+- `render.yaml`: configuracion del backend para Render.
+- `schema.sql`: script SQL del esquema.
+- `docs/GUIA_DESPLIEGUE_NUBE.md`: pasos de despliegue.
+- `docs/ENTREGABLES_ARQUITECTURA_NUBE.md`: resumen para presentar.
 
 ## Usuario local inicial
 

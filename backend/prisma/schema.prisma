@@ -91,12 +91,17 @@ model Product {
   categoryId          String                @map("category_id") @db.Uuid
   name                String                @db.VarChar(180)
   slug                String                @unique @db.VarChar(220)
+  brand               String?               @db.VarChar(120)
+  modelCode           String?               @map("model_code") @db.VarChar(80)
+  specs               String?               @db.VarChar(500)
   unitName            String                @map("unit_name") @db.VarChar(60)
   stock               Decimal               @default(0) @db.Decimal(12, 2)
+  reservedQty         Decimal               @default(0) @map("reserved_qty") @db.Decimal(12, 2)
   minStock            Decimal               @default(0) @map("min_stock") @db.Decimal(12, 2)
   salePrice           Decimal               @default(0) @map("sale_price") @db.Decimal(12, 2)
   costPrice           Decimal               @default(0) @map("cost_price") @db.Decimal(12, 2)
   iconCode            String?               @map("icon_code") @db.VarChar(50)
+  imageUrl            String?               @map("image_url")
   description         String?
   active              Boolean               @default(true)
   createdAt           DateTime              @default(now()) @map("created_at") @db.Timestamptz(6)

@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: mepss-erp-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run prisma:generate -w backend && npm run build -w backend
+    preDeployCommand: npm run prisma:migrate -w backend
+    initialDeployHook: npm run seed -w backend
+    startCommand: npm run start -w backend
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      - key: ADMIN_USERNAME
+        value: admin
+      - key: ADMIN_PASSWORD
+        sync: false

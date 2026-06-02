@@ -27,9 +27,9 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
     <main className="authCanvas">
       <section className="loginCard">
         <div className="loginBrand">
-          <span className="brandMark">LO</span>
+          <span className="brandMark">MEPSS</span>
           <div>
-            <p className="eyebrow">Ferremas ERP</p>
+            <p className="eyebrow">MEPSS ERP</p>
             <h1>Acceso operativo</h1>
           </div>
         </div>
@@ -48,7 +48,7 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
           </label>
 
           <label>
-            <span>Password</span>
+            <span>Contraseña</span>
             <div className="fieldShell">
               <LockKeyhole size={18} />
               <input
@@ -71,15 +71,15 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
 
       <aside className="authAside">
         <div>
-          <p className="eyebrow">Sesion inicial</p>
+          <p className="eyebrow">Sesión inicial</p>
           <strong>admin / admin123</strong>
         </div>
         <div>
-          <p className="eyebrow">Stack</p>
+          <p className="eyebrow">Tecnología</p>
           <strong>Next.js + Node + Prisma</strong>
         </div>
         <div>
-          <p className="eyebrow">Base</p>
+          <p className="eyebrow">Base de datos</p>
           <strong>ferremas_db</strong>
         </div>
       </aside>

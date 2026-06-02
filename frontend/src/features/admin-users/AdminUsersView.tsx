@@ -184,7 +184,7 @@ export function AdminUsersView({ token }: { token: string }) {
     <section className="dashboard">
       <div className="pageHeader">
         <div>
-          <p className="eyebrow">Administracion</p>
+          <p className="eyebrow">Administración</p>
           <h1>Usuarios y permisos</h1>
         </div>
         <div className="periodTabs" aria-label="Resumen de usuarios">
@@ -198,7 +198,7 @@ export function AdminUsersView({ token }: { token: string }) {
           <div className="panelHeader">
             <div>
               <h2>Crear usuario</h2>
-              <p>Alta rapida con permisos iniciales de operacion.</p>
+              <p>Alta rápida con permisos iniciales de operación.</p>
             </div>
             <UserCog size={22} />
           </div>
@@ -215,12 +215,12 @@ export function AdminUsersView({ token }: { token: string }) {
               />
             </label>
             <label>
-              <span>Password</span>
+              <span>Contraseña</span>
               <input
                 type="password"
                 value={form.password}
                 onChange={(event) => setForm((current) => ({ ...current, password: event.target.value }))}
-                placeholder="minimo 6 caracteres"
+                placeholder="mínimo 6 caracteres"
                 required
                 minLength={6}
               />
@@ -264,7 +264,7 @@ export function AdminUsersView({ token }: { token: string }) {
                   <th>Rol</th>
                   <th>Permisos</th>
                   <th>Estado</th>
-                  <th>Accion</th>
+                  <th>Acción</th>
                 </tr>
               </thead>
               <tbody>
@@ -341,7 +341,7 @@ export function AdminUsersView({ token }: { token: string }) {
 
         <div className="permissionMatrix">
           <div className="permissionMatrixHead">
-            <span>Modulo</span>
+            <span>Módulo</span>
             {actions.map((action) => (
               <span key={action.key}>{action.label}</span>
             ))}

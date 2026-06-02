@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { Prisma } from "@prisma/client";
-import { prisma } from "../../shared/prisma.js";
 import { HttpError } from "../../shared/http-error.js";
+import { UserRepository } from "./users.repository.js";
 
 type PermissionInput = {
   moduleKey: string;
@@ -11,184 +11,132 @@ type PermissionInput = {
   canDelete: boolean;
 };
 
-function sanitizeUser<T extends { passwordHash?: string }>(user: T) {
-  const { passwordHash: _passwordHash, ...safeUser } = user;
-  return safeUser;
-}
+export class UserService {
+  constructor(private readonly userRepository: UserRepository) {}
 
-function includeUserRelations() {
-  return {
-    role: true,
-    employee: true,
-    permissions: {
-      orderBy: { moduleKey: "asc" as const }
-    }
-  };
-}
-
-export async function listRoles() {
-  return prisma.role.findMany({
-    orderBy: { name: "asc" }
-  });
-}
-
-export async function listUsers(params: { q?: string; active?: boolean; page: number; pageSize: number }) {
-  const where: Prisma.UserWhereInput = {
-    active: params.active,
-    ...(params.q
-      ? {
-          OR: [
-            { username: { contains: params.q, mode: "insensitive" } },
-            { employee: { fullName: { contains: params.q, mode: "insensitive" } } }
-          ]
-        }
-      : {})
-  };
-
-  const [total, users] = await prisma.$transaction([
-    prisma.user.count({ where }),
-    prisma.user.findMany({
-      where,
-      include: includeUserRelations(),
-      orderBy: { createdAt: "desc" },
-      skip: (params.page - 1) * params.pageSize,
-      take: params.pageSize
-    })
-  ]);
-
-  return {
-    data: users.map(sanitizeUser),
-    meta: {
-      total,
-      page: params.page,
-      pageSize: params.pageSize,
-      pageCount: Math.ceil(total / params.pageSize)
-    }
-  };
-}
-
-export async function getUserById(id: string) {
-  const user = await prisma.user.findUnique({
-    where: { id },
-    include: includeUserRelations()
-  });
-
-  if (!user) {
-    throw new HttpError(404, "Usuario no encontrado");
+  private sanitizeUser<T extends { passwordHash?: string }>(user: T) {
+    const { passwordHash: _passwordHash, ...safeUser } = user;
+    return safeUser;
   }
 
-  return sanitizeUser(user);
-}
+  public async listRoles() {
+    return this.userRepository.listRoles();
+  }
 
-export async function createUser(input: {
-  username: string;
-  password: string;
-  roleId: string;
-  employeeId?: string | null;
-  active: boolean;
-  permissions: PermissionInput[];
-}) {
-  const passwordHash = await bcrypt.hash(input.password, 12);
+  public async listUsers(params: { q?: string; active?: boolean; page: number; pageSize: number }) {
+    const where: Prisma.UserWhereInput = {
+      active: params.active,
+      ...(params.q
+        ? {
+            OR: [
+              { username: { contains: params.q, mode: "insensitive" } },
+              { employee: { fullName: { contains: params.q, mode: "insensitive" } } }
+            ]
+          }
+        : {})
+    };
 
-  try {
-    const user = await prisma.$transaction(async (tx) => {
-      const created = await tx.user.create({
-        data: {
+    const skip = (params.page - 1) * params.pageSize;
+    
+    const [total, users] = await Promise.all([
+      this.userRepository.countUsers(where),
+      this.userRepository.findUsers(where, skip, params.pageSize)
+    ]);
+
+    return {
+      data: users.map((u) => this.sanitizeUser(u)),
+      meta: {
+        total,
+        page: params.page,
+        pageSize: params.pageSize,
+        pageCount: Math.ceil(total / params.pageSize)
+      }
+    };
+  }
+
+  public async getUserById(id: string) {
+    const user = await this.userRepository.findById(id);
+
+    if (!user) {
+      throw new HttpError(404, "Usuario no encontrado");
+    }
+
+    return this.sanitizeUser(user);
+  }
+
+  public async createUser(input: {
+    username: string;
+    password: string;
+    roleId: string;
+    employeeId?: string | null;
+    active: boolean;
+    permissions: PermissionInput[];
+  }) {
+    const passwordHash = await bcrypt.hash(input.password, 12);
+
+    try {
+      const user = await this.userRepository.createUserWithPermissions(
+        {
           username: input.username,
           passwordHash,
           roleId: input.roleId,
           employeeId: input.employeeId ?? null,
           active: input.active
-        }
-      });
+        },
+        input.permissions
+      );
 
-      if (input.permissions.length) {
-        await tx.userPermission.createMany({
-          data: input.permissions.map((permission) => ({
-            userId: created.id,
-            ...permission
-          }))
-        });
+      return this.sanitizeUser(user);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        throw new HttpError(409, "El username ya existe");
       }
-
-      return tx.user.findUniqueOrThrow({
-        where: { id: created.id },
-        include: includeUserRelations()
-      });
-    });
-
-    return sanitizeUser(user);
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-      throw new HttpError(409, "El username ya existe");
+      throw error;
     }
-    throw error;
   }
-}
 
-export async function updateUser(
-  id: string,
-  input: {
-    username?: string;
-    password?: string;
-    roleId?: string;
-    employeeId?: string | null;
-    active?: boolean;
-  }
-) {
-  const passwordHash = input.password ? await bcrypt.hash(input.password, 12) : undefined;
+  public async updateUser(
+    id: string,
+    input: {
+      username?: string;
+      password?: string;
+      roleId?: string;
+      employeeId?: string | null;
+      active?: boolean;
+    }
+  ) {
+    const passwordHash = input.password ? await bcrypt.hash(input.password, 12) : undefined;
 
-  try {
-    const user = await prisma.user.update({
-      where: { id },
-      data: {
+    try {
+      const user = await this.userRepository.updateUser(id, {
         username: input.username,
         passwordHash,
         roleId: input.roleId,
         employeeId: input.employeeId,
         active: input.active
-      },
-      include: includeUserRelations()
-    });
-
-    return sanitizeUser(user);
-  } catch (error) {
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
-      throw new HttpError(404, "Usuario no encontrado");
-    }
-    if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
-      throw new HttpError(409, "El username ya existe");
-    }
-    throw error;
-  }
-}
-
-export async function updateUserStatus(id: string, active: boolean) {
-  return updateUser(id, { active });
-}
-
-export async function replaceUserPermissions(id: string, permissions: PermissionInput[]) {
-  await getUserById(id);
-
-  const user = await prisma.$transaction(async (tx) => {
-    await tx.userPermission.deleteMany({
-      where: { userId: id }
-    });
-
-    if (permissions.length) {
-      await tx.userPermission.createMany({
-        data: permissions.map((permission) => ({
-          userId: id,
-          ...permission
-        }))
       });
+
+      return this.sanitizeUser(user);
+    } catch (error) {
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2025") {
+        throw new HttpError(404, "Usuario no encontrado");
+      }
+      if (error instanceof Prisma.PrismaClientKnownRequestError && error.code === "P2002") {
+        throw new HttpError(409, "El username ya existe");
+      }
+      throw error;
     }
+  }
 
-    return tx.user.findUniqueOrThrow({
-      where: { id },
-      include: includeUserRelations()
-    });
-  });
+  public async updateUserStatus(id: string, active: boolean) {
+    return this.updateUser(id, { active });
+  }
 
-  return sanitizeUser(user);
+  public async replaceUserPermissions(id: string, permissions: PermissionInput[]) {
+    await this.getUserById(id); // Valida que exista
+
+    const user = await this.userRepository.replaceUserPermissions(id, permissions);
+
+    return this.sanitizeUser(user);
+  }
 }

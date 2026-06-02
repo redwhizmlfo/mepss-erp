@@ -12,7 +12,7 @@ import {
 
 export const navItems = [
   {
-    label: "Dashboard",
+    label: "Panel Principal",
     path: "/",
     icon: LayoutDashboard,
     permission: "dashboard",
@@ -30,14 +30,14 @@ export const navItems = [
     path: "/inventory/products",
     icon: Boxes,
     permission: "inventario",
-    children: ["Productos", "Categorias", "Stock", "Kardex", "Ajustes"]
+    children: ["Productos", "Categorías", "Stock", "Kardex", "Ajustes"]
   },
   {
     label: "Proveedores y pedidos",
     path: "/suppliers",
     icon: Truck,
     permission: "proveedores",
-    children: ["Proveedores", "Pedidos", "Recepcion", "Historial"]
+    children: ["Proveedores", "Pedidos", "Recepción", "Historial"]
   },
   {
     label: "Clientes",
@@ -54,7 +54,7 @@ export const navItems = [
     children: ["Lista", "Asistencias", "Salarios", "Boletas"]
   },
   {
-    label: "Perdidas",
+    label: "Pérdidas",
     path: "/losses",
     icon: Siren,
     permission: "perdidas",
@@ -65,13 +65,13 @@ export const navItems = [
     path: "/reports",
     icon: BarChart3,
     permission: "reportes",
-    children: ["Ventas", "Inventario", "Nomina", "Exportar"]
+    children: ["Ventas", "Inventario", "Nómina", "Exportar"]
   },
   {
-    label: "Administracion",
+    label: "Administración",
     path: "/admin/users",
     icon: Settings,
     permission: "usuarios",
-    children: ["Usuarios", "Roles", "Permisos", "Auditoria"]
+    children: ["Usuarios", "Roles", "Permisos", "Auditoría"]
   }
 ];

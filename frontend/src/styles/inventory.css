@@ -1,0 +1,419 @@
+/* ─── INVENTORY ACCORDION ─────────────────────────────────────────────────── */
+.inventoryLayout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 72px);
+  padding: 32px;
+  overflow-y: auto;
+  gap: 24px;
+}
+
+.inventoryHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.inventoryHeader h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  background: linear-gradient(90deg, #fff, rgba(255,255,255,0.7));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.inventoryHeader p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.btnNewProduct {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #8b5cf6, #3b82f6);
+  border: none;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+}
+
+.btnNewProduct:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+}
+
+/* ─── CATEGORY ACCORDION ─────────────────────────────────────────────────── */
+.accCategory {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+  backdrop-filter: blur(20px);
+  flex-shrink: 0;
+}
+
+.accCategory:hover {
+  border-color: rgba(255, 184, 0, 0.2);
+}
+
+.accCategory.open {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 184, 0, 0.3);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 184, 0, 0.1);
+}
+
+.accCategoryHeader {
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.accCategoryHeader:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.accCategoryTitle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.accCategoryIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: rgba(255, 184, 0, 0.12);
+  color: #ffb800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accCategoryTitle h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--clr-on-surface);
+  margin: 0;
+}
+
+.accCategoryTitle span {
+  font-size: 0.85rem;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.06);
+  padding: 2px 8px;
+  border-radius: 999px;
+  margin-left: 8px;
+}
+
+.accIcon {
+  color: var(--muted);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.open .accIcon {
+  transform: rotate(180deg);
+  color: var(--clr-on-surface);
+}
+
+/* Accordion Smooth Height Animation */
+.accContentWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.open > .accContentWrapper {
+  grid-template-rows: 1fr;
+}
+
+.accContentInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ─── BRAND ACCORDION ─────────────────────────────────────────────────────── */
+.accContent {
+  padding: 0 24px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.accBrand {
+  background: rgba(18, 20, 20, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.accBrand:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.accBrand.open {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(18, 20, 20, 0.6);
+}
+
+.accBrandHeader {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.accBrandHeader:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.accBrandInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.accBrandInfo h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--clr-on-surface);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accBrandInfo h3 svg {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.brandStats {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.brandStat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.brandStatLabel {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.brandStatValue {
+  font-size: 0.9rem;
+  font-weight: 700;
+  font-family: var(--font-display);
+}
+
+.valTotal { color: #4ade80; }
+.valItems { color: rgba(255, 255, 255, 0.8); }
+
+.brandIcon {
+  color: var(--muted);
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.open .accBrandHeader .brandIcon {
+  transform: rotate(90deg);
+}
+
+/* Sub-Accordion Smooth Height Animation */
+.brandContentWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.open > .brandContentWrapper {
+  grid-template-rows: 1fr;
+}
+
+.brandContentInner {
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ─── MODELS TABLE ───────────────────────────────────────────────────────── */
+.brandContent {
+  padding: 0 20px 20px;
+}
+
+.modelsTableWrapper {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  overflow-x: auto;
+}
+
+.modelsTable {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.modelsTable th {
+  padding: 12px 16px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.02);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.modelsTable td {
+  padding: 14px 16px;
+  font-size: 0.85rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.85);
+  vertical-align: middle;
+}
+
+.modelsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.modelsTable tr:hover td {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.modelNameCol {
+  font-weight: 600;
+  color: var(--clr-on-surface);
+}
+
+.modelCodeCol {
+  font-family: monospace;
+  color: rgba(255, 184, 0, 0.8);
+  background: rgba(255, 184, 0, 0.1);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+}
+
+.modelSpecsCol {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.modelNumberCol {
+  font-family: var(--font-display);
+  font-weight: 600;
+}
+
+.modelStockCol {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  padding: 2px 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  font-weight: 700;
+}
+
+.modelStockCol.low {
+  background: rgba(255, 100, 100, 0.15);
+  color: #fb7185;
+}
+
+/* ─── IMAGE STYLES ───────────────────────────────────────────────────────── */
+.modelImgCol {
+  width: 60px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.modelImage {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.modelImage:hover {
+  transform: scale(1.1) translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.modelImagePlaceholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.modelCodeCol {
+  color: #4ade80;
+  font-weight: 700;
+  text-align: right;
+}
+
+.modelMoneyCol {
+  color: #4ade80;
+  font-weight: 700;
+  text-align: right;
+}
+
+.modelsTable th.rightAlign,
+.modelsTable td.rightAlign {
+  text-align: right;
+}
+
+/* Utils */
+.inventoryEmpty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+  color: var(--muted);
+  gap: 16px;
+}
+
+.inventoryEmpty svg {
+  opacity: 0.2;
+}
+
+.inventoryEmpty p {
+  font-size: 1rem;
+}

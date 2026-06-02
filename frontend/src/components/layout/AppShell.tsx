@@ -1,6 +1,8 @@
 "use client";
 
-import { Bell, Command, LogOut, Search } from "lucide-react";
+import React from "react";
+import { Bell, LogOut, Search, Settings, ShieldCheck, UserCircle } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { AuthUser } from "@/lib/api";
 import { navItems } from "./nav-items";
 
@@ -11,59 +13,82 @@ type AppShellProps = {
 };
 
 export function AppShell({ children, user, onLogout }: AppShellProps) {
+  const pathname = usePathname();
+
   const allowedModules = new Set(
     user.roleCode === "admin"
       ? navItems.map((item) => item.permission)
-      : user.permissions.filter((permission) => permission.canView).map((permission) => permission.moduleKey)
+      : user.permissions.filter((p) => p.canView).map((p) => p.moduleKey)
   );
   const visibleItems = navItems.filter((item) => allowedModules.has(item.permission));
 
   return (
-    <main className="shell">
-      <aside className="sidebar">
-        <div className="brand">
-          <span className="brandMark">LO</span>
-          <div>
-            <strong>Luxury Ops</strong>
-            <small>Command suite</small>
+    <>
+      <main className="shell">
+        <aside className="sidebarNav">
+          <div className="navBrand">
+            <span className="brandName">MEPSS ERP</span>
+            <span className="brandVersion">v2.0</span>
           </div>
-        </div>
 
-        <nav className="navList" aria-label="Modulos principales">
-          {visibleItems.map((item) => {
-            const Icon = item.icon;
-            return (
-              <a href={item.path} className="navItem" key={item.label}>
-                <Icon size={18} />
-                <span>{item.label}</span>
-              </a>
-            );
-          })}
-        </nav>
-      </aside>
+          <nav className="navLinks" aria-label="Módulos principales">
+            {visibleItems.map((item) => {
+              const isActive =
+                pathname === item.path ||
+                (item.path !== "/" && pathname?.startsWith(item.path));
+              const Icon = item.icon;
 
-      <section className="workspace">
-        <header className="topbar">
-          <div className="commandBox">
-            <Search size={17} />
-            <span>Buscar modulo, venta, producto o empleado</span>
-            <kbd><Command size={13} />K</kbd>
-          </div>
-          <div className="topbarActions">
-            <button className="iconButton" aria-label="Alertas">
-              <Bell size={18} />
-            </button>
-            <div className="userPill">
-              <span>{user.username}</span>
-              <small>{user.roleName}</small>
+              return (
+                <a
+                  href={item.path}
+                  className={`navItem${isActive ? " active" : ""}`}
+                  key={item.label}
+                  aria-current={isActive ? "page" : undefined}
+                >
+                  <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
+                  <span>{item.label}</span>
+                </a>
+              );
+            })}
+          </nav>
+
+          <div className="userBox">
+            <div className="userIcon">
+              <ShieldCheck size={20} strokeWidth={2} />
             </div>
-            <button className="iconButton" aria-label="Cerrar sesion" onClick={onLogout}>
-              <LogOut size={18} />
+            <div className="userInfo">
+              <span>{user.username}</span>
+              <small>Administrador</small>
+            </div>
+          </div>
+        </aside>
+
+        <header className="topNavbar">
+          <div className="headerTitle">Panel de Control</div>
+
+          <div className="searchBar">
+            <Search size={16} />
+            <input type="text" placeholder="Buscar..." />
+          </div>
+
+          <div className="navActionsGroup">
+            <button className="navActionBtn" aria-label="Alertas">
+              <Bell size={18} strokeWidth={1.5} />
+            </button>
+            <button className="navActionBtn" aria-label="Ajustes">
+              <Settings size={18} strokeWidth={1.5} />
+            </button>
+            <button className="navActionBtn" aria-label="Usuario">
+              <UserCircle size={18} strokeWidth={1.5} />
+            </button>
+            <button className="navActionBtn" aria-label="Cerrar sesión" onClick={onLogout}>
+              <LogOut size={18} strokeWidth={1.5} />
             </button>
           </div>
         </header>
-        {children}
-      </section>
-    </main>
+
+        <section className="workspace">{children}</section>
+      </main>
+    </>
   );
 }

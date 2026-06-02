@@ -7,6 +7,8 @@ import { env } from "./config/env.js";
 import { authRouter } from "./modules/auth/auth.routes.js";
 import { dashboardRouter } from "./modules/reports/dashboard.routes.js";
 import { usersRouter } from "./modules/users/users.routes.js";
+import { inventoryRouter } from "./modules/inventory/inventory.routes.js";
+import { salesRouter } from "./modules/sales/sales.routes.js";
 import { authenticate, requirePermission } from "./shared/auth-middleware.js";
 import { HttpError } from "./shared/http-error.js";
 
@@ -28,6 +30,8 @@ app.get("/api/v1/health", (_req, res) => {
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/inventory", inventoryRouter);
+app.use("/api/v1/sales", salesRouter);
 app.use("/api/v1/reports/dashboard", authenticate, requirePermission("dashboard"), dashboardRouter);
 
 app.use((_req, _res, next) => {

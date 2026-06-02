@@ -1,89 +1,57 @@
 import { Router } from "express";
 import { asyncHandler } from "../../shared/async-handler.js";
 import { authenticate, requirePermission } from "../../shared/auth-middleware.js";
-import {
-  createUserSchema,
-  listUsersQuerySchema,
-  updateUserPermissionsSchema,
-  updateUserSchema,
-  updateUserStatusSchema
-} from "./users.schemas.js";
-import {
-  createUser,
-  getUserById,
-  listRoles,
-  listUsers,
-  replaceUserPermissions,
-  updateUser,
-  updateUserStatus
-} from "./users.service.js";
+import { UserRepository } from "./users.repository.js";
+import { UserService } from "./users.service.js";
+import { UserController } from "./users.controller.js";
 
 export const usersRouter = Router();
 
-usersRouter.use(authenticate);
+// Inyección de dependencias (Manual)
+const userRepository = new UserRepository();
+const userService = new UserService(userRepository);
+const userController = new UserController(userService);
 
-function routeId(value: string | string[] | undefined) {
-  return Array.isArray(value) ? value[0] : value ?? "";
-}
+usersRouter.use(authenticate);
 
 usersRouter.get(
   "/roles",
   requirePermission("roles"),
-  asyncHandler(async (_req, res) => {
-    res.json(await listRoles());
-  })
+  asyncHandler(userController.listRoles.bind(userController))
 );
 
 usersRouter.get(
   "/",
   requirePermission("usuarios"),
-  asyncHandler(async (req, res) => {
-    const query = listUsersQuerySchema.parse(req.query);
-    res.json(await listUsers(query));
-  })
+  asyncHandler(userController.listUsers.bind(userController))
 );
 
 usersRouter.post(
   "/",
   requirePermission("usuarios", "canCreate"),
-  asyncHandler(async (req, res) => {
-    const payload = createUserSchema.parse(req.body);
-    const user = await createUser(payload);
-    res.status(201).json(user);
-  })
+  asyncHandler(userController.createUser.bind(userController))
 );
 
 usersRouter.get(
   "/:id",
   requirePermission("usuarios"),
-  asyncHandler(async (req, res) => {
-    res.json(await getUserById(routeId(req.params.id)));
-  })
+  asyncHandler(userController.getUserById.bind(userController))
 );
 
 usersRouter.put(
   "/:id",
   requirePermission("usuarios", "canEdit"),
-  asyncHandler(async (req, res) => {
-    const payload = updateUserSchema.parse(req.body);
-    res.json(await updateUser(routeId(req.params.id), payload));
-  })
+  asyncHandler(userController.updateUser.bind(userController))
 );
 
 usersRouter.patch(
   "/:id/status",
   requirePermission("usuarios", "canEdit"),
-  asyncHandler(async (req, res) => {
-    const payload = updateUserStatusSchema.parse(req.body);
-    res.json(await updateUserStatus(routeId(req.params.id), payload.active));
-  })
+  asyncHandler(userController.updateUserStatus.bind(userController))
 );
 
 usersRouter.put(
   "/:id/permissions",
   requirePermission("permisos", "canEdit"),
-  asyncHandler(async (req, res) => {
-    const payload = updateUserPermissionsSchema.parse(req.body);
-    res.json(await replaceUserPermissions(routeId(req.params.id), payload.permissions));
-  })
+  asyncHandler(userController.replaceUserPermissions.bind(userController))
 );

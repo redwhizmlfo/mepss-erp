@@ -3,6 +3,9 @@
 @import "../styles/layout.css";
 @import "../styles/dashboard.css";
 @import "../styles/admin.css";
+@import "../styles/sales.css";
+@import "../styles/inventory.css";
+@import "../styles/form.css";
 
 * {
   box-sizing: border-box;
@@ -15,9 +18,9 @@ body {
 
 body {
   margin: 0;
-  background: var(--surface);
-  color: var(--ink);
+  color: var(--clr-on-surface);
   font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -26,6 +29,7 @@ a {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }

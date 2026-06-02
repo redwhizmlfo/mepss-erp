@@ -1,16 +1,65 @@
+/* Variables del sistema visual */
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&display=swap');
+
 :root {
-  --ink: #1d1a16;
-  --muted: #776f62;
-  --surface: #f5efe4;
-  --surface-strong: #fffaf0;
-  --line: #dfd0b4;
-  --gold: #9b7a2f;
-  --gold-soft: #efe2bd;
-  --green: #123c36;
-  --blue: #2c4c6b;
-  --red: #7d2424;
-  --copper: #6f3d2e;
-  --shadow: 0 20px 50px rgba(42, 32, 18, 0.12);
-  --font-body: "Aptos", "Segoe UI", sans-serif;
-  --font-display: Georgia, "Times New Roman", serif;
+  /* Paleta MEPSS ERP */
+  --clr-primary: #FFF000;
+  --clr-primary-container: #CCCC00;
+  --clr-secondary: #AAAAAA;
+  --clr-secondary-container: #333333;
+  --clr-tertiary: #555555;
+  --clr-surface: #121212;
+  --clr-surface-container: #1C1C1C;
+  --clr-surface-container-high: #242424;
+  --clr-surface-container-highest: #2A2A2A;
+  --clr-surface-bright: #333333;
+  --clr-on-surface: #F5F5F5;
+  --clr-on-surface-variant: #A3A3A3;
+  --clr-outline: #333333;
+  --clr-outline-variant: #222222;
+  --clr-error: #FF3333;
+  --clr-success: #00FF66;
+
+  /* Compatibilidad con estilos anteriores */
+  --ink: var(--clr-on-surface);
+  --muted: var(--clr-on-surface-variant);
+  --surface: var(--clr-surface);
+  --surface-strong: var(--clr-surface-container);
+  --line: var(--clr-outline);
+  --gold: var(--clr-primary);
+  --gold-soft: rgba(255, 240, 0, 0.15);
+  --green: var(--clr-success);
+  --blue: #3399FF;
+  --red: var(--clr-error);
+  --copper: #FF9933;
+  --shadow: none;
+
+  --font-body: 'Hanken Grotesk', 'Segoe UI', sans-serif;
+  --font-display: 'Hanken Grotesk', sans-serif;
+  --font-mono: 'Consolas', 'Courier New', monospace;
+}
+
+/* Fondo global */
+body {
+  background: var(--clr-surface);
+  min-height: 100vh;
+}
+
+/* Utilidades */
+.glass {
+  background: var(--clr-surface-container);
+  border: 1px solid var(--clr-outline);
+}
+
+/* Mantiene compatibilidad con pantallas antiguas que usaban bgOrbs. */
+.bgOrbs {
+  display: none;
+}
+
+/* Barra de desplazamiento */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
 }

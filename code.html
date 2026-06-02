@@ -1,0 +1,470 @@
+<!DOCTYPE html><html class="dark" lang="en" style=""><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Talent Management | HR Director Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface": "#121414",
+                    "on-secondary-fixed": "#25005a",
+                    "error-container": "#93000a",
+                    "on-surface": "#e2e2e2",
+                    "on-primary-fixed-variant": "#5e4200",
+                    "primary-container": "#ffb800",
+                    "primary-fixed-dim": "#ffba20",
+                    "surface-bright": "#37393a",
+                    "on-primary": "#412d00",
+                    "outline-variant": "#514532",
+                    "inverse-surface": "#e2e2e2",
+                    "surface-tint": "#ffba20",
+                    "secondary-container": "#6001d1",
+                    "on-primary-fixed": "#271900",
+                    "on-secondary-container": "#c9aeff",
+                    "surface-container-lowest": "#0c0f0f",
+                    "on-error-container": "#ffdad6",
+                    "primary": "#ffdca1",
+                    "on-secondary": "#3f008e",
+                    "tertiary-fixed-dim": "#ffb783",
+                    "secondary-fixed-dim": "#d2bbff",
+                    "error": "#ffb4ab",
+                    "tertiary-container": "#ffb47e",
+                    "primary-fixed": "#ffdea8",
+                    "surface-container-highest": "#333535",
+                    "tertiary": "#ffd9c1",
+                    "on-tertiary-container": "#804000",
+                    "on-secondary-fixed-variant": "#5a00c6",
+                    "surface-variant": "#333535",
+                    "on-tertiary-fixed-variant": "#713700",
+                    "surface-container-high": "#282a2b",
+                    "surface-container": "#1e2020",
+                    "tertiary-fixed": "#ffdcc5",
+                    "on-tertiary-fixed": "#301400",
+                    "on-primary-container": "#6b4c00",
+                    "secondary-fixed": "#eaddff",
+                    "surface-dim": "#121414",
+                    "on-error": "#690005",
+                    "on-surface-variant": "#d5c4ab",
+                    "on-tertiary": "#4f2500",
+                    "inverse-on-surface": "#2f3131",
+                    "on-background": "#e2e2e2",
+                    "surface-container-low": "#1a1c1c",
+                    "secondary": "#d2bbff",
+                    "background": "#121414",
+                    "outline": "#9e8f78",
+                    "inverse-primary": "#7c5800"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "inner-padding": "24px",
+                    "container-padding": "32px",
+                    "card-gap": "20px",
+                    "gutter": "24px",
+                    "element-gap": "12px"
+            },
+            "fontFamily": {
+                    "headline-lg": ["Hanken Grotesk"],
+                    "label-md": ["Hanken Grotesk"],
+                    "headline-md": ["Hanken Grotesk"],
+                    "body-lg": ["Hanken Grotesk"],
+                    "label-sm": ["Hanken Grotesk"],
+                    "display-lg": ["Hanken Grotesk"],
+                    "body-md": ["Hanken Grotesk"]
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      body {
+        margin: 0;
+        padding: 0;
+        font-family: 'Hanken Grotesk', sans-serif;
+        background: linear-gradient(135deg, #FF9E2C 0%, #FFB800 25%, #8A2BE2 75%, #4B0082 100%);
+        background-attachment: fixed;
+        min-height: 100vh;
+        color: #e2e2e2;
+      }
+
+      .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+      }
+
+      .inner-glow {
+        background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%);
+      }
+
+      .glow-chart-line {
+        filter: drop-shadow(0 0 8px #FFB800);
+      }
+
+      .primary-button-gradient {
+        background: linear-gradient(to bottom right, #FFB800, #FB923C);
+      }
+
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+    </style>
+</head>
+<body class="antialiased overflow-x-hidden">
+<!-- SideNavBar Shell -->
+<aside class="h-screen w-64 fixed left-0 top-0 border-r border-white/20 backdrop-blur-xl bg-surface/10 flex flex-col py-8 z-50">
+<div class="px-8 mb-10">
+<h1 class="text-headline-md font-headline-md font-bold text-primary">Talent</h1>
+<p class="text-label-sm font-label-sm opacity-60">Management OS</p>
+</div>
+<div class="px-4 space-y-2 flex-grow overflow-y-auto"><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-primary font-bold border-r-4 border-primary bg-primary/10 transition-all duration-300" href="#"><span class="material-symbols-outlined">grid_view</span><span class="text-label-md font-label-md">Dashboard</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">monitoring</span><span class="text-label-md font-label-md">Ventas</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">inventory_2</span><span class="text-label-md font-label-md">Inventario</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">warehouse</span><span class="text-label-md font-label-md">Almacen</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">local_shipping</span><span class="text-label-md font-label-md">Povedores</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">shopping_cart</span><span class="text-label-md font-label-md">Pedidos</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">badge</span><span class="text-label-md font-label-md">Empleados</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">event_available</span><span class="text-label-md font-label-md">Asistencia</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">account_balance_wallet</span><span class="text-label-md font-label-md">Planilla</span></a><a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors group" href="#"><span class="material-symbols-outlined group-hover:scale-110 transition-transform">manage_accounts</span><span class="text-label-md font-label-md">User/Rol</span></a></div>
+<div class="px-4 pt-8 border-t border-white/10 space-y-2">
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-label-md font-label-md">Settings</span>
+</a>
+<a class="flex items-center gap-4 px-4 py-3 rounded-xl text-on-surface/60 hover:text-on-surface hover:bg-white/5 transition-colors" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-label-md font-label-md">Support</span>
+</a>
+<div class="mt-6 p-4 glass-card rounded-xl flex items-center gap-3">
+<img alt="Alex Thompson" class="w-10 h-10 rounded-full border border-primary/30" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOCshRZ3mXcLVRST916zgL32Y7nUJe18xWFKd00poJWNMmWeTUHDpDXm6_VHJnn2hSrKtiSuQWp-KDlZOsob0uVzbx68Pcp7vnXRRH0G4baGxgN4_5jKk5b8LAp0_Dxgctou5QcZpodNaD0U2u5G9pO8XmjbDsbIfVhujswuz_jSN8kkUISSpQZ8IDGii3oCa-zNBbQF4Cqrf8jFhe9_tnULVz6NdhQOt_wyZlK0-HHZudxrlp2I3DmokpJfwddw7eycYkjVs9P-Q">
+<div class="overflow-hidden">
+<p class="text-label-md font-bold truncate">Alex Thompson</p>
+<p class="text-[10px] opacity-60 uppercase tracking-wider">HR Director</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] h-20 border-b border-white/10 backdrop-blur-md bg-surface/5 flex justify-between items-center px-10 z-40">
+<div class="flex items-center gap-8">
+<div class="relative w-96">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 opacity-40">search</span>
+<input class="w-full bg-white/5 border border-white/10 rounded-full pl-12 pr-6 py-2.5 focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all outline-none text-body-md" placeholder="Search employees, roles, reports..." type="text">
+</div>
+<nav class="hidden xl:flex items-center gap-6">
+<a class="text-primary border-b-2 border-primary pb-1 font-label-md" href="#">Overview</a>
+<a class="text-on-surface/70 hover:text-on-surface font-label-md transition-all" href="#">Analytics</a>
+<a class="text-on-surface/70 hover:text-on-surface font-label-md transition-all" href="#">Reports</a>
+</nav>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface/70 hover:text-primary transition-all p-2 rounded-full hover:bg-white/5">notifications</button>
+<button class="material-symbols-outlined text-on-surface/70 hover:text-primary transition-all p-2 rounded-full hover:bg-white/5">settings</button>
+<button class="primary-button-gradient px-6 py-2.5 rounded-full text-surface font-bold text-label-md hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary-container/20">
+          Add Employee
+        </button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-28 pb-12 px-10 min-h-screen">
+<!-- Metric Cards Grid (Top Row) -->
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-gutter mb-gutter">
+<!-- Headcount -->
+<div class="glass-card inner-glow p-inner-padding rounded-xl transition-all duration-300 hover:scale-[1.02] cursor-default group">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md text-on-surface/60 font-medium">Headcount: <span class="text-on-surface">Total</span></span>
+<div class="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+<span class="material-symbols-outlined">trending_up</span>
+</div>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-display-lg font-display-lg leading-none">345</span>
+<span class="text-primary font-bold text-label-md pb-2">+12%</span>
+</div>
+</div>
+<!-- Attendance Rate -->
+<div class="glass-card inner-glow p-inner-padding rounded-xl transition-all duration-300 hover:scale-[1.02] cursor-default group">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md text-on-surface/60 font-medium">Attendance Rate: <span class="text-on-surface">Today</span></span>
+<div class="w-10 h-10 rounded-lg bg-secondary/10 flex items-center justify-center text-secondary group-hover:bg-secondary/20 transition-colors">
+<span class="material-symbols-outlined">done_all</span>
+</div>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-display-lg font-display-lg leading-none">98.5%</span>
+</div>
+</div>
+<!-- Open Roles -->
+<div class="glass-card inner-glow p-inner-padding rounded-xl transition-all duration-300 hover:scale-[1.02] cursor-default group">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md text-on-surface/60 font-medium">Open Roles</span>
+<div class="w-10 h-10 rounded-lg bg-tertiary/10 flex items-center justify-center text-tertiary group-hover:bg-tertiary/20 transition-colors">
+<span class="material-symbols-outlined">work_outline</span>
+</div>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-display-lg font-display-lg leading-none">18</span>
+<span class="text-on-surface/60 font-medium text-label-md pb-2">Positions</span>
+</div>
+</div>
+<!-- Payroll -->
+<div class="glass-card inner-glow p-inner-padding rounded-xl transition-all duration-300 hover:scale-[1.02] cursor-default group">
+<div class="flex justify-between items-start mb-4">
+<span class="text-label-md text-on-surface/60 font-medium">Payroll: <span class="text-on-surface">This Month</span></span>
+<div class="w-10 h-10 rounded-lg bg-primary-container/10 flex items-center justify-center text-primary-container group-hover:bg-primary-container/20 transition-colors">
+<span class="material-symbols-outlined">payments</span>
+</div>
+</div>
+<div class="flex items-end gap-3">
+<span class="text-display-lg font-display-lg leading-none">$215K</span>
+</div>
+</div>
+</div>
+<!-- Middle Row: Chart & Requests -->
+<div class="grid grid-cols-12 gap-gutter mb-gutter">
+<!-- Daily Attendance Flow Chart (8 Columns) -->
+<div class="col-span-12 xl:col-span-8 glass-card inner-glow p-inner-padding rounded-xl relative overflow-hidden">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-headline-md font-headline-md">Daily Attendance Flow</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-label-sm">Active</span>
+<span class="px-3 py-1 rounded-full bg-white/5 text-on-surface/40 text-label-sm">Historical</span>
+</div>
+</div>
+<div class="relative h-64 w-full">
+<!-- Simulated Wave SVG -->
+<svg class="w-full h-full" preserveAspectRatio="none" viewBox="0 0 800 200">
+<defs>
+<linearGradient id="waveGrad" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#FFB800" stop-opacity="0.6"></stop>
+<stop offset="100%" stop-color="#FFB800" stop-opacity="0"></stop>
+</linearGradient>
+<linearGradient id="waveGrad2" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" stop-color="#FFFFFF" stop-opacity="0.2"></stop>
+<stop offset="100%" stop-color="#FFFFFF" stop-opacity="0"></stop>
+</linearGradient>
+</defs>
+<!-- Background Wave -->
+<path d="M0,150 C100,50 200,180 300,80 C400,-20 500,150 600,100 C700,50 800,120 800,120 L800,200 L0,200 Z" fill="url(#waveGrad2)"></path>
+<!-- Golden Wave -->
+<path class="glow-chart-line" d="M0,160 C100,60 200,190 300,90 C400,-10 500,160 600,110 C700,60 800,130 800,130" fill="none" stroke="#FFB800" stroke-width="4"></path>
+<path d="M0,160 C100,60 200,190 300,90 C400,-10 500,160 600,110 C700,60 800,130 800,130 L800,200 L0,200 Z" fill="url(#waveGrad)"></path>
+<!-- Points -->
+<circle cx="100" cy="85" fill="#FFF" r="5"></circle>
+<circle cx="300" cy="115" fill="#FFF" r="5"></circle>
+<circle cx="500" cy="75" fill="#FFF" r="5"></circle>
+<circle cx="650" cy="85" fill="#FFF" r="5"></circle>
+<circle cx="750" cy="110" fill="#FFF" r="5"></circle>
+</svg>
+<div class="absolute inset-0 flex justify-between items-end px-4 text-label-sm opacity-60">
+<span class="">Mon</span>
+<span class="">Tue</span>
+<span class="">Wed</span>
+<span class="">Thu</span>
+<span class="">Fri</span>
+</div>
+<!-- Labels -->
+<div class="absolute top-[35px] left-[10%] text-label-md font-bold">98%</div>
+<div class="absolute top-[65px] left-[35%] text-label-md font-bold">97%</div>
+<div class="absolute top-[25px] left-[60%] text-label-md font-bold">99%</div>
+<div class="absolute top-[35px] left-[80%] text-label-md font-bold">99%</div>
+</div>
+</div>
+<!-- Pending Leave Requests (4 Columns) -->
+<div class="col-span-12 xl:col-span-4 glass-card inner-glow p-inner-padding rounded-xl">
+<h3 class="text-headline-md font-headline-md mb-6">Pending Leave Requests</h3>
+<div class="space-y-4">
+<!-- Sarah Miller Request -->
+<div class="p-4 rounded-xl bg-white/5 border border-white/10">
+<div class="flex items-center gap-4 mb-6">
+<img alt="Sarah Miller" class="w-14 h-14 rounded-full border-2 border-primary/20" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBla0TWuIuRacgVGdNLW5uGoeKCkIsvF5yuXtOyXyn5IhrWmJlsQA7df4c0JEsl82tmW5_8Jufjk-e9sblobit8wZ6GlvKkRx_iIiTih25_1YjAYOhBpDYULdffQydueYQC0OZRu8IbFTRxd49DSUB9onTvmDE70NgM8qtSisYC1GqCxr2_1hc-S9s3uHhdG5V2O5MKlDuSHcgokPExMKxf8ol97xTf4v7wGeA-OXnc1u97PvBWp_aU2owfUE2mj-jpYwvBaXp8le4">
+<div>
+<h4 class="text-body-lg font-bold">Sarah Miller</h4>
+<p class="text-label-md opacity-60">Senior Product Designer</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-6 px-3 py-2 bg-primary/5 rounded-lg border border-primary/10">
+<span class="material-symbols-outlined text-primary scale-90">calendar_today</span>
+<span class="text-label-md font-medium text-primary">Apr 15 - 20 (5 Days)</span>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="primary-button-gradient py-2.5 rounded-lg text-surface font-bold text-label-md hover:brightness-110 transition-all">Approve</button>
+<button class="bg-white/10 hover:bg-white/20 py-2.5 rounded-lg text-on-surface font-bold text-label-md transition-all">Deny</button>
+</div>
+</div>
+<!-- Mini List Fallback -->
+<div class="flex items-center justify-between p-3 rounded-lg hover:bg-white/5 transition-colors cursor-pointer group">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">JB</div>
+<div>
+<p class="text-label-md font-bold">James Bond</p>
+<p class="text-[10px] opacity-40">May 1-2 • Sick Leave</p>
+</div>
+</div>
+<span class="material-symbols-outlined opacity-0 group-hover:opacity-100 transition-opacity">chevron_right</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Row: Recruitment Pipeline -->
+<div class="glass-card inner-glow p-inner-padding rounded-xl">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h3 class="text-headline-md font-headline-md">Recruitment Pipeline</h3>
+<p class="text-label-sm opacity-60">Monitoring 24 active candidates across 8 departments</p>
+</div>
+<button class="text-primary hover:underline text-label-md font-bold">View All Pipeline</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left">
+<thead>
+<tr class="text-label-sm font-bold opacity-40 uppercase tracking-widest border-b border-white/10">
+<th class="pb-4 font-bold">Candidate</th>
+<th class="pb-4 font-bold">Applied Role</th>
+<th class="pb-4 font-bold">Status</th>
+<th class="pb-4 font-bold">Experience</th>
+<th class="pb-4 font-bold text-right">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<!-- Candidate 1 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="py-5">
+<div class="flex items-center gap-3">
+<img alt="Panar Developer" class="w-10 h-10 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6WXslkcp0sEzNjZgLjshoYgrSiseEXkzrSRWzUcrR0cnYHeLMSh9Xh44tizVZpq1oCUI40xT6SD_MamiYp6CvBoEf1N8sgXFkeietuOgpyuVfAL-CaUytpbuXjgAB60pxrxLBrAefe0taw8LB1c25qiFgerOU64wNi4LD4ESIZNb6psK_Hf6rMDbtGroxp2hy4A6tDnPVzpZFTq4JMHDv1TY_MYnhQuidWFQ-kB2-_SsBrTkgrH_cPW9hfK7DyzvnBKe4q6gpvSc">
+<div>
+<p class="text-body-md font-bold">Panar Developer</p>
+<p class="text-[11px] opacity-40">panar.dev@gmail.com</p>
+</div>
+</div>
+</td>
+<td class="py-5">
+<div class="flex flex-col">
+<span class="text-label-md">Glowim Developer</span>
+<span class="text-[11px] opacity-40">Engineering</span>
+</div>
+</td>
+<td class="py-5">
+<span class="px-3 py-1 rounded-full bg-primary/10 text-primary text-[11px] font-bold border border-primary/20 uppercase tracking-tighter">Technical Interview</span>
+</td>
+<td class="py-5">
+<span class="text-label-md">6 Years</span>
+</td>
+<td class="py-5 text-right">
+<button class="material-symbols-outlined opacity-40 hover:opacity-100 hover:text-primary transition-all">more_vert</button>
+</td>
+</tr>
+<!-- Candidate 2 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="py-5">
+<div class="flex items-center gap-3">
+<img alt="Brim Reaner" class="w-10 h-10 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA9x4iTNrHWeJaHE-2Ywd-pGvxZ-TbBMecjnkL2jwBRbzttgBUgtLpTsSaM0-enBNpjqapCUBBv3-1UuKKJbkZL16WLTXIA2Y2lZZWIpMFHHX8sKyXRkChByHT-6kvVcz7MD63Rub_MTgMoz_WwUCg01rkbdFc0pNphjfG_8GXT1PK6EhlF0OmXnA419Q1Ux2iuSfUXpG22sShoob6VKq_xoDdUTL7qQZrgebazn8sotf28uB87gSseIjZFqvNwmh4impERpyV45H0">
+<div>
+<p class="text-body-md font-bold">Brim Reaner</p>
+<p class="text-[11px] opacity-40">brim.r@glowim.co</p>
+</div>
+</div>
+</td>
+<td class="py-5">
+<div class="flex flex-col">
+<span class="text-label-md">UI/UX Designer</span>
+<span class="text-[11px] opacity-40">Product Design</span>
+</div>
+</td>
+<td class="py-5">
+<span class="px-3 py-1 rounded-full bg-secondary/10 text-secondary text-[11px] font-bold border border-secondary/20 uppercase tracking-tighter">Portfolio Review</span>
+</td>
+<td class="py-5">
+<span class="text-label-md">4 Years</span>
+</td>
+<td class="py-5 text-right">
+<button class="material-symbols-outlined opacity-40 hover:opacity-100 hover:text-primary transition-all">more_vert</button>
+</td>
+</tr>
+<!-- Candidate 3 -->
+<tr class="group hover:bg-white/[0.02] transition-colors">
+<td class="py-5">
+<div class="flex items-center gap-3">
+<img alt="Stean Burner" class="w-10 h-10 rounded-lg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCLgIrB-hTNjqQjun5keTEVdnhx2ii3ZpdKx30q12WsV0o1aXfmXC1tJ9oM5R58HXuu-kXuC0DBVlErKLTSVRNMx4i4Jvbs6a-kWEsARc5Y1BzcveW3iXOTEdyak9VMLG_ltgyCqe3DGmwbNjV-6QGpeTk6OTeMPY1FBqkCf5z4yEa8xuu7pBjzpLtVUwf9s_1c9ALn9JpIS9g6nLx_j8tViVWlkkAjfLkuR6iQAmISyTdFNtI9ISd6imEMei9Bs6WdEEfKuMrMyos">
+<div>
+<p class="text-body-md font-bold">Stean Burner</p>
+<p class="text-[11px] opacity-40">s.burner@icloud.com</p>
+</div>
+</div>
+</td>
+<td class="py-5">
+<div class="flex flex-col">
+<span class="text-label-md">Recruitment Lead</span>
+<span class="text-[11px] opacity-40">Human Resources</span>
+</div>
+</td>
+<td class="py-5">
+<span class="px-3 py-1 rounded-full bg-error/10 text-error text-[11px] font-bold border border-error/20 uppercase tracking-tighter">Rejected</span>
+</td>
+<td class="py-5">
+<span class="text-label-md">12 Years</span>
+</td>
+<td class="py-5 text-right">
+<button class="material-symbols-outlined opacity-40 hover:opacity-100 hover:text-primary transition-all">more_vert</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</main>
+<!-- Visual Polish: Background Orbs -->
+<div class="fixed top-[-10%] right-[-5%] w-[40vw] h-[40vw] bg-primary/20 rounded-full blur-[120px] -z-10 animate-pulse"></div>
+<div class="fixed bottom-[-10%] left-[10%] w-[35vw] h-[35vw] bg-secondary/30 rounded-full blur-[100px] -z-10"></div>
+<script>
+      // Micro-interactions and effects
+      document.querySelectorAll('.glass-card').forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+          const rect = card.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+          
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
+          
+          // Subtle tilt effect
+          const centerX = rect.width / 2;
+          const centerY = rect.height / 2;
+          const rotateX = (y - centerY) / 20;
+          const rotateY = (centerX - x) / 20;
+          
+          card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+        });
+      });
+    </script>
+
+
+</body></html>
