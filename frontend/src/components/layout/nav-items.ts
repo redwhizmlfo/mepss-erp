@@ -20,7 +20,7 @@ export const navItems = [
   },
   {
     label: "Ventas",
-    path: "/sales/pos",
+    path: "/sales",
     icon: ShoppingCart,
     permission: "ventas",
     children: ["Punto de venta", "Historial", "Comprobantes", "Cierres"]
