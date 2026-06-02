@@ -62,7 +62,7 @@ export function AttendanceView({ token }: { token: string }) {
           <p className="eyebrow">Asistencias</p>
           <h1>Control de asistencias</h1>
         </div>
-        <div className="periodTabs" aria-label="Submódulos de empleados">
+        <div className="moduleTabs" aria-label="Submódulos de empleados">
           <a href="/employees">Empleados</a>
           <a className="active" href="/employees/attendance">Asistencias</a>
           <a href="/employees/payroll">Boletas</a>

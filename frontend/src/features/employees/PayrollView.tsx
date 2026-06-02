@@ -60,7 +60,7 @@ export function PayrollView({ token }: { token: string }) {
           <p className="eyebrow">Boletas</p>
           <h1>Boletas de pago</h1>
         </div>
-        <div className="periodTabs" aria-label="Submódulos de empleados">
+        <div className="moduleTabs" aria-label="Submódulos de empleados">
           <a href="/employees">Empleados</a>
           <a href="/employees/attendance">Asistencias</a>
           <a className="active" href="/employees/payroll">Boletas</a>

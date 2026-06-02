@@ -104,7 +104,7 @@ export function EmployeesView({ token }: { token: string }) {
           <p className="eyebrow">Empleados</p>
           <h1>Directorio de empleados</h1>
         </div>
-        <div className="periodTabs" aria-label="Submódulos de empleados">
+        <div className="moduleTabs" aria-label="Submódulos de empleados">
           <a className="active" href="/employees">Empleados</a>
           <a href="/employees/attendance">Asistencias</a>
           <a href="/employees/payroll">Boletas</a>
