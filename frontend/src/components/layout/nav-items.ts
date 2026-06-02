@@ -51,7 +51,7 @@ export const navItems = [
     path: "/employees",
     icon: ReceiptText,
     permission: "empleados",
-    children: ["Lista", "Asistencias", "Salarios", "Boletas"]
+    children: ["Lista", "Asistencias", "Boletas"]
   },
   {
     label: "Pérdidas",

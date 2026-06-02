@@ -83,6 +83,17 @@
   color: rgba(213, 196, 171, 0.55);
 }
 
+.moduleLink {
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.moduleLink:hover {
+  border-color: rgba(255, 240, 0, 0.35);
+  background: rgba(255, 240, 0, 0.07);
+}
+
 @media (max-width: 980px) {
   .moduleGrid,
   .moduleSplit {
