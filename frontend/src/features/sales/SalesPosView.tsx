@@ -255,28 +255,39 @@ export function SalesPosView({
                     className="productCardImage"
                   />
                   
-                  <div className="productCardOverlay">
-                    <div className="overlayTop">
-                      <span className="overlayPrice">{fmt(Number(product.salePrice))}</span>
-                      <span className={`overlayStock${isLow ? " low" : ""}`}>
-                        {isOut ? "Agotado" : `${Number(product.stock)} ${product.unitName}`}
-                      </span>
-                    </div>
-                    
-                    <div className="overlayBottom">
-                      <div className="overlayName">{product.name}</div>
-                      {product.modelCode && <div className="overlayModel">Mod: {product.modelCode}</div>}
-                    </div>
+                  <span className={`productStatusBadge${isLow ? " low" : ""}${isOut ? " out" : ""}`}>
+                    {isOut ? "Agotado" : isLow ? "Bajo" : "Top"}
+                  </span>
 
-                    {!isOut && (
+                  <div className="productCardBody">
+                    <div className="productCardMeta">
+                      <div>
+                        <span>Modelo</span>
+                        <strong>{product.modelCode || product.brand || product.name}</strong>
+                      </div>
+                      <div>
+                        <span>Stock</span>
+                        <strong>{Number(product.stock)}</strong>
+                      </div>
+                    </div>
+                    <div className="productCardCode">
+                      <span>Cod</span>
+                      <strong>{product.slug || product.id.slice(0, 8)}</strong>
+                    </div>
+                    <p className="productCardName">{product.name}</p>
+
+                    <div className="productCardFooter">
+                      <span className="productCardPrice">{fmt(Number(product.salePrice))}</span>
                       <button
-                        className="productAddBtn"
+                        className="productMoreBtn"
                         onClick={(e) => { e.stopPropagation(); addToCart(product); }}
+                        disabled={isOut}
                         aria-label={`Añadir ${product.name}`}
                       >
-                        <Plus size={18} />
+                        <span>{isOut ? "Sin stock" : "Ver más"}</span>
+                        {!isOut ? <Plus size={15} /> : null}
                       </button>
-                    )}
+                    </div>
                   </div>
                 </div>
               );

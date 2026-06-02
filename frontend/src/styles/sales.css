@@ -107,30 +107,36 @@
 /* ─── PRODUCT GRID ───────────────────────────────────────────────────────── */
 .productGrid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)) !important;
-  gap: 32px !important;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)) !important;
+  gap: 22px !important;
   overflow-y: auto;
   padding-bottom: 24px;
   align-content: start;
 }
 
 .productCard {
-  background: var(--clr-surface-bright);
+  min-height: 392px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.11), rgba(255, 255, 255, 0.045));
   border-radius: 12px;
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  display: block;
+  display: grid;
+  grid-template-rows: 58% 42%;
   width: 100%;
-  padding-bottom: 100%; /* Truco infalible para cuadrados 1:1 */
-  border: 1px solid rgba(255,255,255,0.05);
-  margin-bottom: 16px; /* Respaldo en caso de que gap falle en grid */
+  border: 1px solid rgba(255,255,255,0.08);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.22);
+  transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.productCard:hover {
+  transform: translateY(-3px);
+  border-color: rgba(255, 184, 0, 0.35);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
 }
 
 .productCardImage {
-  position: absolute;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -146,7 +152,7 @@
 }
 
 .productCard.outOfStock {
-  opacity: 0.5;
+  opacity: 0.72;
   cursor: not-allowed;
 }
 
@@ -156,105 +162,134 @@
   box-shadow: none;
 }
 
-.productCardOverlay {
+.productStatusBadge {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.85) 100%);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: 14px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.productCard:hover .productCardOverlay {
-  opacity: 1;
-}
-
-.overlayTop {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.overlayPrice {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 800;
-  color: #4ade80;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-.overlayStock {
-  font-size: 0.72rem;
-  color: #fff;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 6px;
-  padding: 3px 8px;
-  font-weight: 600;
-}
-
-.overlayStock.low {
-  color: #ffb4ab;
-  border-color: rgba(255,180,171,0.5);
-  background: rgba(255,0,0,0.2);
-}
-
-.overlayBottom {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.overlayName {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #fff;
-  line-height: 1.2;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
-}
-
-.overlayModel {
-  font-size: 0.75rem;
-  color: rgba(255,255,255,0.7);
-  font-family: var(--font-mono);
-}
-
-.productAddBtn {
-  position: absolute;
-  bottom: 14px;
-  right: 14px;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  border: none;
-  background: var(--gold);
-  color: #000;
-  display: flex;
+  top: 16px;
+  left: 16px;
+  min-height: 32px;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff7a2f, #ff9e2c);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  box-shadow: 0 12px 28px rgba(255, 122, 47, 0.32);
+}
+
+.productStatusBadge.low {
+  background: linear-gradient(135deg, #ffb800, #ffcc48);
+  color: #1a1200;
+}
+
+.productStatusBadge.out {
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.74);
+}
+
+.productCardBody {
+  display: grid;
+  align-content: space-between;
+  gap: 10px;
+  padding: 18px;
+  background: radial-gradient(circle at 0% 0%, rgba(255, 184, 0, 0.12), transparent 34%), rgba(17, 17, 17, 0.96);
+}
+
+.productCardMeta {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+}
+
+.productCardMeta div,
+.productCardCode {
+  display: grid;
+  gap: 5px;
+}
+
+.productCardMeta span,
+.productCardCode span {
+  color: rgba(226, 226, 226, 0.48);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.productCardMeta strong,
+.productCardCode strong {
+  color: var(--clr-on-surface);
+  font-family: var(--font-mono);
+  font-size: 0.86rem;
+  font-weight: 900;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.productCardName {
+  min-height: 32px;
+  margin: 0;
+  color: rgba(226, 226, 226, 0.66);
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.productCardFooter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.productCardPrice {
+  color: #ff9e2c;
+  font-family: var(--font-display);
+  font-size: clamp(1.25rem, 2vw, 1.7rem);
+  font-weight: 950;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.productMoreBtn {
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 12px 0 14px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #ff7a2f, #ff9e2c);
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 900;
   cursor: pointer;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 12px rgba(255, 184, 0, 0.4);
+  white-space: nowrap;
+  box-shadow: 0 12px 28px rgba(255, 122, 47, 0.26);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.productCardOverlay:hover .productAddBtn {
-  opacity: 1;
-  transform: translateY(0);
+.productMoreBtn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 34px rgba(255, 122, 47, 0.34);
 }
 
-.productAddBtn:hover {
-  transform: scale(1.1) !important;
-  box-shadow: 0 6px 16px rgba(255, 184, 0, 0.6);
+.productMoreBtn:disabled {
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
-.productAddBtn:active {
-  transform: scale(0.95) !important;
+.productMoreBtn svg {
+  width: 22px;
+  height: 22px;
+  padding: 4px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .posEmpty {
