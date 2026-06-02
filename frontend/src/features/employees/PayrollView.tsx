@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { ReceiptText, RefreshCcw, Search } from "lucide-react";
+import { Plus, RefreshCcw, Search, X } from "lucide-react";
 import { createEmployeePayroll, EmployeeDetail, EmployeeRecord, getEmployee, listEmployees } from "@/lib/api";
 
 function money(value: number | string) {
@@ -15,6 +15,7 @@ export function PayrollView({ token }: { token: string }) {
   const [form, setForm] = useState({ periodYear: new Date().getFullYear(), periodMonth: new Date().getMonth() + 1, discounts: 0 });
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   async function loadEmployees(search = query) {
     setLoading(true);
@@ -49,8 +50,14 @@ export function PayrollView({ token }: { token: string }) {
 
     await createEmployeePayroll(token, selected.id, form);
     setMessage("Boleta generada correctamente.");
+    setDrawerOpen(false);
     await selectEmployee(selected.id);
     await loadEmployees(query);
+  }
+
+  function openDrawer() {
+    setMessage(null);
+    setDrawerOpen(true);
   }
 
   return (
@@ -67,74 +74,47 @@ export function PayrollView({ token }: { token: string }) {
         </div>
       </div>
 
-      <div className="moduleGrid">
-        <section className="panel">
-          <div className="panelHeader">
-            <div>
-              <h2>Generar boleta</h2>
-              <p>{selected ? selected.fullName : "Selecciona un empleado."}</p>
-            </div>
-            <ReceiptText size={22} />
+      <section className="panel wide">
+        <div className="panelHeader">
+          <div>
+            <h2>Empleados con boletas</h2>
+            <p>Resumen basado en boletas_pago_empleado.</p>
           </div>
-          <form className="adminForm" onSubmit={handleSubmit}>
-            <label>
-              <span>Empleado</span>
-              <select value={selected?.id ?? ""} onChange={(event) => selectEmployee(event.target.value)} required>
-                {employees.map((employee) => (
-                  <option value={employee.id} key={employee.id}>{employee.fullName}</option>
-                ))}
-              </select>
-            </label>
-            <label><span>Año</span><input type="number" value={form.periodYear} onChange={(event) => setForm((current) => ({ ...current, periodYear: Number(event.target.value) }))} /></label>
-            <label><span>Mes</span><input type="number" min={1} max={12} value={form.periodMonth} onChange={(event) => setForm((current) => ({ ...current, periodMonth: Number(event.target.value) }))} /></label>
-            <label><span>Descuentos</span><input type="number" min={0} step="0.01" value={form.discounts} onChange={(event) => setForm((current) => ({ ...current, discounts: Number(event.target.value) }))} /></label>
-            {message ? <p className="formNote">{message}</p> : null}
-            <button className="loginButton" disabled={!selected}><span>Generar boleta</span></button>
-          </form>
-        </section>
-
-        <section className="panel wide">
-          <div className="panelHeader">
-            <div>
-              <h2>Empleados con boletas</h2>
-              <p>Resumen basado en boletas_pago_empleado.</p>
-            </div>
-            <div className="moduleSearch">
-              <Search size={16} />
-              <input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEmployees(query)} placeholder="Buscar empleado" />
-              <button className="tableAction" onClick={() => loadEmployees(query)} type="button"><RefreshCcw size={14} /></button>
-            </div>
+          <div className="moduleSearch">
+            <Search size={16} />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEmployees(query)} placeholder="Buscar empleado" />
+            <button className="tableAction" onClick={() => loadEmployees(query)} type="button"><RefreshCcw size={14} /></button>
           </div>
+        </div>
 
-          <div className="adminTableWrap">
-            <table className="adminTable">
-              <thead>
-                <tr>
-                  <th>Empleado</th>
-                  <th>Pago diario</th>
-                  <th>Asistencias</th>
-                  <th>Boletas</th>
-                  <th>Estado</th>
-                  <th>Acción</th>
+        <div className="adminTableWrap">
+          <table className="adminTable">
+            <thead>
+              <tr>
+                <th>Empleado</th>
+                <th>Pago diario</th>
+                <th>Asistencias</th>
+                <th>Boletas</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employees.map((employee) => (
+                <tr key={employee.id}>
+                  <td><strong>{employee.fullName}</strong><small>{employee.position}</small></td>
+                  <td>{money(employee.dailyPay)}</td>
+                  <td>{employee._count?.attendance ?? 0}</td>
+                  <td>{employee._count?.payroll ?? 0}</td>
+                  <td><span className={`statusPill ${employee.active ? "active" : "inactive"}`}>{employee.active ? "Activo" : "Inactivo"}</span></td>
+                  <td><button className="tableAction" onClick={() => selectEmployee(employee.id)}>Ver boletas</button></td>
                 </tr>
-              </thead>
-              <tbody>
-                {employees.map((employee) => (
-                  <tr key={employee.id}>
-                    <td><strong>{employee.fullName}</strong><small>{employee.position}</small></td>
-                    <td>{money(employee.dailyPay)}</td>
-                    <td>{employee._count?.attendance ?? 0}</td>
-                    <td>{employee._count?.payroll ?? 0}</td>
-                    <td><span className={`statusPill ${employee.active ? "active" : "inactive"}`}>{employee.active ? "Activo" : "Inactivo"}</span></td>
-                    <td><button className="tableAction" onClick={() => selectEmployee(employee.id)}>Ver boletas</button></td>
-                  </tr>
-                ))}
-                {!employees.length && !loading ? <tr><td colSpan={6}>No hay empleados registrados.</td></tr> : null}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
+              ))}
+              {!employees.length && !loading ? <tr><td colSpan={6}>No hay empleados registrados.</td></tr> : null}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <section className="panel moduleDetail">
         <div className="panelHeader">
@@ -148,12 +128,44 @@ export function PayrollView({ token }: { token: string }) {
             <article className="moduleCard" key={slip.id}>
               <span>{slip.slipNumber}</span>
               <strong>{money(slip.netTotal)}</strong>
-              <small>{slip.daysWorked} días · {slip.periodMonth}/{slip.periodYear}</small>
+              <small>{slip.daysWorked} días - {slip.periodMonth}/{slip.periodYear}</small>
             </article>
           ))}
           {selected && !selected.payroll.length ? <p className="moduleEmpty">Este empleado aún no tiene boletas.</p> : null}
         </div>
       </section>
+
+      <button className={`floatingAction ${drawerOpen ? "open" : ""}`} type="button" onClick={drawerOpen ? () => setDrawerOpen(false) : openDrawer} aria-label={drawerOpen ? "Cerrar generador de boletas" : "Abrir generador de boletas"}>
+        {drawerOpen ? <X size={24} /> : <Plus size={26} />}
+      </button>
+      <div className={`sideDrawerBackdrop ${drawerOpen ? "open" : ""}`} onClick={() => setDrawerOpen(false)} />
+      <aside className={`sideDrawer ${drawerOpen ? "open" : ""}`} aria-hidden={!drawerOpen}>
+        <div className="sideDrawerHeader">
+          <div>
+            <p className="eyebrow">Boletas</p>
+            <h2>Generar boleta</h2>
+          </div>
+          <button className="drawerClose" type="button" onClick={() => setDrawerOpen(false)} aria-label="Cerrar">
+            <X size={18} />
+          </button>
+        </div>
+
+        <form className="adminForm drawerForm" onSubmit={handleSubmit}>
+          <label>
+            <span>Empleado</span>
+            <select value={selected?.id ?? ""} onChange={(event) => selectEmployee(event.target.value)} required>
+              {employees.map((employee) => (
+                <option value={employee.id} key={employee.id}>{employee.fullName}</option>
+              ))}
+            </select>
+          </label>
+          <label><span>Año</span><input type="number" value={form.periodYear} onChange={(event) => setForm((current) => ({ ...current, periodYear: Number(event.target.value) }))} /></label>
+          <label><span>Mes</span><input type="number" min={1} max={12} value={form.periodMonth} onChange={(event) => setForm((current) => ({ ...current, periodMonth: Number(event.target.value) }))} /></label>
+          <label><span>Descuentos</span><input type="number" min={0} step="0.01" value={form.discounts} onChange={(event) => setForm((current) => ({ ...current, discounts: Number(event.target.value) }))} /></label>
+          {message ? <p className="formNote">{message}</p> : null}
+          <button className="loginButton" disabled={!selected}><span>Generar boleta</span></button>
+        </form>
+      </aside>
     </section>
   );
 }

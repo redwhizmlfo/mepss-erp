@@ -1,7 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useState } from "react";
-import { BadgePlus, BriefcaseBusiness, CalendarDays, ReceiptText, RefreshCcw, Search } from "lucide-react";
+import { BriefcaseBusiness, CalendarDays, Plus, ReceiptText, RefreshCcw, Search, X } from "lucide-react";
 import {
   createEmployee,
   EmployeeDetail,
@@ -34,6 +34,7 @@ export function EmployeesView({ token }: { token: string }) {
   const [query, setQuery] = useState("");
   const [message, setMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   async function loadEmployees(search = query) {
     setLoading(true);
@@ -57,6 +58,19 @@ export function EmployeesView({ token }: { token: string }) {
     });
   }, [token]);
 
+  function openNewEmployee() {
+    setEditingId(null);
+    setEmployeeForm(emptyEmployee);
+    setMessage(null);
+    setDrawerOpen(true);
+  }
+
+  function closeDrawer() {
+    setDrawerOpen(false);
+    setEditingId(null);
+    setEmployeeForm(emptyEmployee);
+  }
+
   async function saveEmployee(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setMessage(null);
@@ -70,6 +84,7 @@ export function EmployeesView({ token }: { token: string }) {
       }
       setEmployeeForm(emptyEmployee);
       setEditingId(null);
+      setDrawerOpen(false);
       setSelected(null);
       await loadEmployees("");
     } catch (error) {
@@ -87,6 +102,8 @@ export function EmployeesView({ token }: { token: string }) {
       hireDate: employee.hireDate.slice(0, 10),
       dailyPay: Number(employee.dailyPay)
     });
+    setMessage(null);
+    setDrawerOpen(true);
   }
 
   async function toggleStatus(employee: EmployeeRecord) {
@@ -111,96 +128,53 @@ export function EmployeesView({ token }: { token: string }) {
         </div>
       </div>
 
-      <div className="moduleGrid">
-        <section className="panel">
-          <div className="panelHeader">
-            <div>
-              <h2>{editingId ? "Editar empleado" : "Nuevo empleado"}</h2>
-              <p>Datos laborales base.</p>
-            </div>
-            <BadgePlus size={22} />
+      <section className="panel wide">
+        <div className="panelHeader">
+          <div>
+            <h2>Empleados registrados</h2>
+            <p>Datos laborales, usuario vinculado y actividad comercial.</p>
           </div>
-
-          <form className="adminForm" onSubmit={saveEmployee}>
-            <label>
-              <span>Nombre completo</span>
-              <input value={employeeForm.fullName} onChange={(event) => setEmployeeForm((current) => ({ ...current, fullName: event.target.value }))} required />
-            </label>
-            <label>
-              <span>DNI</span>
-              <input value={employeeForm.dni} onChange={(event) => setEmployeeForm((current) => ({ ...current, dni: event.target.value }))} required />
-            </label>
-            <label>
-              <span>Cargo</span>
-              <input value={employeeForm.position} onChange={(event) => setEmployeeForm((current) => ({ ...current, position: event.target.value }))} required />
-            </label>
-            <label>
-              <span>Teléfono</span>
-              <input value={employeeForm.phone} onChange={(event) => setEmployeeForm((current) => ({ ...current, phone: event.target.value }))} />
-            </label>
-            <label>
-              <span>Fecha ingreso</span>
-              <input type="date" value={employeeForm.hireDate} onChange={(event) => setEmployeeForm((current) => ({ ...current, hireDate: event.target.value }))} required />
-            </label>
-            <label>
-              <span>Pago diario</span>
-              <input type="number" value={employeeForm.dailyPay} onChange={(event) => setEmployeeForm((current) => ({ ...current, dailyPay: Number(event.target.value) }))} min={0} step="0.01" required />
-            </label>
-            {message ? <p className="formNote">{message}</p> : null}
-            <button className="loginButton" type="submit">
-              <span>{editingId ? "Actualizar empleado" : "Crear empleado"}</span>
-            </button>
-          </form>
-        </section>
-
-        <section className="panel wide">
-          <div className="panelHeader">
-            <div>
-              <h2>Empleados registrados</h2>
-              <p>Datos laborales, usuario vinculado y actividad comercial.</p>
-            </div>
-            <div className="moduleSearch">
-              <Search size={16} />
-              <input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEmployees(query)} placeholder="Buscar empleado" />
-              <button className="tableAction" onClick={() => loadEmployees(query)} type="button"><RefreshCcw size={14} /></button>
-            </div>
+          <div className="moduleSearch">
+            <Search size={16} />
+            <input value={query} onChange={(event) => setQuery(event.target.value)} onKeyDown={(event) => event.key === "Enter" && loadEmployees(query)} placeholder="Buscar empleado" />
+            <button className="tableAction" onClick={() => loadEmployees(query)} type="button"><RefreshCcw size={14} /></button>
           </div>
+        </div>
 
-          <div className="adminTableWrap">
-            <table className="adminTable">
-              <thead>
-                <tr>
-                  <th>Empleado</th>
-                  <th>Usuario</th>
-                  <th>Ventas</th>
-                  <th>Asistencias</th>
-                  <th>Boletas</th>
-                  <th>Estado</th>
-                  <th>Acción</th>
+        <div className="adminTableWrap">
+          <table className="adminTable">
+            <thead>
+              <tr>
+                <th>Empleado</th>
+                <th>Usuario</th>
+                <th>Ventas</th>
+                <th>Asistencias</th>
+                <th>Boletas</th>
+                <th>Estado</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody>
+              {employees.map((employee) => (
+                <tr key={employee.id}>
+                  <td><strong>{employee.fullName}</strong><small>{employee.position} - DNI {employee.dni}</small></td>
+                  <td>{employee.users?.[0]?.username ?? "Sin usuario"}</td>
+                  <td>{employee._count?.sales ?? 0}</td>
+                  <td>{employee._count?.attendance ?? 0}</td>
+                  <td>{employee._count?.payroll ?? 0}</td>
+                  <td><span className={`statusPill ${employee.active ? "active" : "inactive"}`}>{employee.active ? "Activo" : "Inactivo"}</span></td>
+                  <td>
+                    <button className="tableAction" onClick={() => selectEmployee(employee.id)}>Ventas</button>
+                    <button className="tableAction" onClick={() => editEmployee(employee)}>Editar</button>
+                    <button className="tableAction" onClick={() => toggleStatus(employee)}>{employee.active ? "Desactivar" : "Activar"}</button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {employees.map((employee) => (
-                  <tr key={employee.id}>
-                    <td><strong>{employee.fullName}</strong><small>{employee.position} · DNI {employee.dni}</small></td>
-                    <td>{employee.users?.[0]?.username ?? "Sin usuario"}</td>
-                    <td>{employee._count?.sales ?? 0}</td>
-                    <td>{employee._count?.attendance ?? 0}</td>
-                    <td>{employee._count?.payroll ?? 0}</td>
-                    <td><span className={`statusPill ${employee.active ? "active" : "inactive"}`}>{employee.active ? "Activo" : "Inactivo"}</span></td>
-                    <td>
-                      <button className="tableAction" onClick={() => selectEmployee(employee.id)}>Ventas</button>
-                      <button className="tableAction" onClick={() => editEmployee(employee)}>Editar</button>
-                      <button className="tableAction" onClick={() => toggleStatus(employee)}>{employee.active ? "Desactivar" : "Activar"}</button>
-                    </td>
-                  </tr>
-                ))}
-                {!employees.length && !loading ? <tr><td colSpan={7}>No hay empleados registrados.</td></tr> : null}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      </div>
+              ))}
+              {!employees.length && !loading ? <tr><td colSpan={7}>No hay empleados registrados.</td></tr> : null}
+            </tbody>
+          </table>
+        </div>
+      </section>
 
       <section className="panel moduleDetail">
         <div className="panelHeader">
@@ -215,7 +189,7 @@ export function EmployeesView({ token }: { token: string }) {
             <article className="moduleCard" key={sale.id}>
               <span>{sale.serie}</span>
               <strong>{money(sale.total)}</strong>
-              <small>{sale.client?.name ?? "Sin cliente"} · {new Date(sale.createdAt).toLocaleDateString("es-PE")}</small>
+              <small>{sale.client?.name ?? "Sin cliente"} - {new Date(sale.createdAt).toLocaleDateString("es-PE")}</small>
             </article>
           ))}
           {selected && !selected.sales.length ? <p className="moduleEmpty">Este empleado aún no registra ventas.</p> : null}
@@ -234,6 +208,53 @@ export function EmployeesView({ token }: { token: string }) {
           <small>Generación de pagos en su propio submódulo.</small>
         </a>
       </div>
+
+      <button className={`floatingAction ${drawerOpen ? "open" : ""}`} type="button" onClick={drawerOpen ? closeDrawer : openNewEmployee} aria-label={drawerOpen ? "Cerrar registro de empleado" : "Abrir registro de empleado"}>
+        {drawerOpen ? <X size={24} /> : <Plus size={26} />}
+      </button>
+      <div className={`sideDrawerBackdrop ${drawerOpen ? "open" : ""}`} onClick={closeDrawer} />
+      <aside className={`sideDrawer ${drawerOpen ? "open" : ""}`} aria-hidden={!drawerOpen}>
+        <div className="sideDrawerHeader">
+          <div>
+            <p className="eyebrow">Registro</p>
+            <h2>{editingId ? "Editar empleado" : "Nuevo empleado"}</h2>
+          </div>
+          <button className="drawerClose" type="button" onClick={closeDrawer} aria-label="Cerrar">
+            <X size={18} />
+          </button>
+        </div>
+
+        <form className="adminForm drawerForm" onSubmit={saveEmployee}>
+          <label>
+            <span>Nombre completo</span>
+            <input value={employeeForm.fullName} onChange={(event) => setEmployeeForm((current) => ({ ...current, fullName: event.target.value }))} required />
+          </label>
+          <label>
+            <span>DNI</span>
+            <input value={employeeForm.dni} onChange={(event) => setEmployeeForm((current) => ({ ...current, dni: event.target.value }))} required />
+          </label>
+          <label>
+            <span>Cargo</span>
+            <input value={employeeForm.position} onChange={(event) => setEmployeeForm((current) => ({ ...current, position: event.target.value }))} required />
+          </label>
+          <label>
+            <span>Teléfono</span>
+            <input value={employeeForm.phone} onChange={(event) => setEmployeeForm((current) => ({ ...current, phone: event.target.value }))} />
+          </label>
+          <label>
+            <span>Fecha ingreso</span>
+            <input type="date" value={employeeForm.hireDate} onChange={(event) => setEmployeeForm((current) => ({ ...current, hireDate: event.target.value }))} required />
+          </label>
+          <label>
+            <span>Pago diario</span>
+            <input type="number" value={employeeForm.dailyPay} onChange={(event) => setEmployeeForm((current) => ({ ...current, dailyPay: Number(event.target.value) }))} min={0} step="0.01" required />
+          </label>
+          {message ? <p className="formNote">{message}</p> : null}
+          <button className="loginButton" type="submit">
+            <span>{editingId ? "Actualizar empleado" : "Crear empleado"}</span>
+          </button>
+        </form>
+      </aside>
     </section>
   );
 }
