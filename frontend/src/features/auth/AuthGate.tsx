@@ -12,15 +12,38 @@ type AuthGateProps = {
   children: (session: { token: string; user: AuthUser }) => ReactNode;
 };
 
+function readStoredSession() {
+  if (typeof window === "undefined") {
+    return { token: null, user: null };
+  }
+
+  const storedToken = window.localStorage.getItem(TOKEN_KEY);
+  const storedUser = window.localStorage.getItem(USER_KEY);
+
+  if (!storedToken || !storedUser) {
+    return { token: storedToken, user: null };
+  }
+
+  try {
+    return {
+      token: storedToken,
+      user: JSON.parse(storedUser) as AuthUser
+    };
+  } catch {
+    window.localStorage.removeItem(USER_KEY);
+    return { token: storedToken, user: null };
+  }
+}
+
 export function AuthGate({ children }: AuthGateProps) {
-  const [token, setToken] = useState<string | null>(null);
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [initialSession] = useState(readStoredSession);
+  const [token, setToken] = useState<string | null>(initialSession.token);
+  const [user, setUser] = useState<AuthUser | null>(initialSession.user);
+  const [loading, setLoading] = useState(!initialSession.token || !initialSession.user);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const storedToken = window.localStorage.getItem(TOKEN_KEY);
-    const storedUser = window.localStorage.getItem(USER_KEY);
 
     if (!storedToken) {
       setLoading(false);
@@ -28,14 +51,7 @@ export function AuthGate({ children }: AuthGateProps) {
     }
 
     setToken(storedToken);
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser) as AuthUser);
-        setLoading(false);
-      } catch {
-        window.localStorage.removeItem(USER_KEY);
-      }
-    }
+    setLoading((current) => (user ? false : current));
 
     getMe(storedToken)
       .then((freshUser) => {
