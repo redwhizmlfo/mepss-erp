@@ -6,6 +6,7 @@ import { AuthUser, getMe, login } from "@/lib/api";
 import { LoginView } from "./LoginView";
 
 const TOKEN_KEY = "luxury_ops_token";
+const USER_KEY = "luxury_ops_user";
 
 type AuthGateProps = {
   children: (session: { token: string; user: AuthUser }) => ReactNode;
@@ -19,6 +20,7 @@ export function AuthGate({ children }: AuthGateProps) {
 
   useEffect(() => {
     const storedToken = window.localStorage.getItem(TOKEN_KEY);
+    const storedUser = window.localStorage.getItem(USER_KEY);
 
     if (!storedToken) {
       setLoading(false);
@@ -26,11 +28,25 @@ export function AuthGate({ children }: AuthGateProps) {
     }
 
     setToken(storedToken);
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser) as AuthUser);
+        setLoading(false);
+      } catch {
+        window.localStorage.removeItem(USER_KEY);
+      }
+    }
+
     getMe(storedToken)
-      .then(setUser)
+      .then((freshUser) => {
+        setUser(freshUser);
+        window.localStorage.setItem(USER_KEY, JSON.stringify(freshUser));
+      })
       .catch(() => {
         window.localStorage.removeItem(TOKEN_KEY);
+        window.localStorage.removeItem(USER_KEY);
         setToken(null);
+        setUser(null);
       })
       .finally(() => setLoading(false));
   }, []);
@@ -41,12 +57,14 @@ export function AuthGate({ children }: AuthGateProps) {
     setError(null);
     const session = await login(username, password);
     window.localStorage.setItem(TOKEN_KEY, session.accessToken);
+    window.localStorage.setItem(USER_KEY, JSON.stringify(session.user));
     setToken(session.accessToken);
     setUser(session.user);
   }
 
   function handleLogout() {
     window.localStorage.removeItem(TOKEN_KEY);
+    window.localStorage.removeItem(USER_KEY);
     setToken(null);
     setUser(null);
   }
@@ -55,8 +73,8 @@ export function AuthGate({ children }: AuthGateProps) {
     return (
       <main className="authCanvas">
         <div className="loginCard compact">
-          <span className="brandMark">LO</span>
-          <p>Preparando sesion...</p>
+          <span className="brandMark">MEPSS</span>
+          <p>Preparando sesión...</p>
         </div>
       </main>
     );
@@ -70,7 +88,7 @@ export function AuthGate({ children }: AuthGateProps) {
           try {
             await handleLogin(username, password);
           } catch (loginError) {
-            setError(loginError instanceof Error ? loginError.message : "No se pudo iniciar sesion");
+            setError(loginError instanceof Error ? loginError.message : "No se pudo iniciar sesión");
           }
         }}
       />

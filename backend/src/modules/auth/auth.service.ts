@@ -6,10 +6,22 @@ import { signAccessToken } from "../../shared/auth-middleware.js";
 export async function login(input: { username: string; password: string }) {
   const user = await prisma.user.findUnique({
     where: { username: input.username },
-    include: {
-      role: true,
-      employee: true,
-      permissions: true
+    select: {
+      id: true,
+      username: true,
+      passwordHash: true,
+      active: true,
+      role: { select: { code: true, name: true } },
+      employee: { select: { id: true, fullName: true, position: true } },
+      permissions: {
+        select: {
+          moduleKey: true,
+          canView: true,
+          canCreate: true,
+          canEdit: true,
+          canDelete: true
+        }
+      }
     }
   });
 
@@ -23,10 +35,10 @@ export async function login(input: { username: string; password: string }) {
     throw new HttpError(401, "Credenciales invalidas");
   }
 
-  await prisma.user.update({
+  void prisma.user.update({
     where: { id: user.id },
     data: { lastAccessAt: new Date() }
-  });
+  }).catch(() => undefined);
 
   const authUser = {
     id: user.id,
@@ -60,10 +72,21 @@ export async function login(input: { username: string; password: string }) {
 export async function getCurrentUser(userId: string) {
   const user = await prisma.user.findUnique({
     where: { id: userId },
-    include: {
-      role: true,
-      employee: true,
-      permissions: true
+    select: {
+      id: true,
+      username: true,
+      active: true,
+      role: { select: { code: true, name: true } },
+      employee: { select: { id: true, fullName: true, position: true } },
+      permissions: {
+        select: {
+          moduleKey: true,
+          canView: true,
+          canCreate: true,
+          canEdit: true,
+          canDelete: true
+        }
+      }
     }
   });
 
