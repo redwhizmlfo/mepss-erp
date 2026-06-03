@@ -55,7 +55,7 @@ async function main() {
     }
   });
 
-  const passwordHash = await bcrypt.hash(env.ADMIN_PASSWORD, 12);
+  const passwordHash = await bcrypt.hash(env.ADMIN_PASSWORD, env.BCRYPT_ROUNDS);
 
   const adminUser = await prisma.user.upsert({
     where: { username: env.ADMIN_USERNAME },

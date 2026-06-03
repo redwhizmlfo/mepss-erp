@@ -9,7 +9,8 @@ const envSchema = z.object({
   JWT_SECRET: z.string().min(8).default("change-me"),
   FRONTEND_URL: z.string().url().default("http://localhost:3000"),
   ADMIN_USERNAME: z.string().min(3).default("admin"),
-  ADMIN_PASSWORD: z.string().min(6).default("admin123")
+  ADMIN_PASSWORD: z.string().min(6).default("admin123"),
+  BCRYPT_ROUNDS: z.coerce.number().int().min(8).max(14).default(10)
 });
 
 export const env = envSchema.parse(process.env);

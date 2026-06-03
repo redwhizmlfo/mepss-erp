@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import { Prisma } from "@prisma/client";
+import { env } from "../../config/env.js";
 import { HttpError } from "../../shared/http-error.js";
 import { UserRepository } from "./users.repository.js";
 
@@ -72,7 +73,7 @@ export class UserService {
     active: boolean;
     permissions: PermissionInput[];
   }) {
-    const passwordHash = await bcrypt.hash(input.password, 12);
+    const passwordHash = await bcrypt.hash(input.password, env.BCRYPT_ROUNDS);
 
     try {
       const user = await this.userRepository.createUserWithPermissions(
@@ -105,7 +106,7 @@ export class UserService {
       active?: boolean;
     }
   ) {
-    const passwordHash = input.password ? await bcrypt.hash(input.password, 12) : undefined;
+    const passwordHash = input.password ? await bcrypt.hash(input.password, env.BCRYPT_ROUNDS) : undefined;
 
     try {
       const user = await this.userRepository.updateUser(id, {
