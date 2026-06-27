@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { Bell, ChevronDown, LogOut, Search, Settings, ShieldCheck, UserCircle } from "lucide-react";
+import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { AuthUser } from "@/lib/api";
 import { navItems } from "./nav-items";
@@ -91,14 +92,14 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
                         <span>{item.label}</span>
                       </button>
                     ) : (
-                      <a
+                      <Link
                         href={item.path}
                         className="navItem"
                         aria-current={isActive ? "page" : undefined}
                       >
                         <Icon size={18} strokeWidth={isActive ? 2.5 : 1.5} />
                         <span>{item.label}</span>
-                      </a>
+                      </Link>
                     )}
 
                     {hasSubItems ? (
@@ -119,14 +120,14 @@ export function AppShell({ children, user, onLogout }: AppShellProps) {
                       {subItems.map((subItem) => {
                         const isSubActive = pathname === subItem.path;
                         return (
-                          <a
+                          <Link
                             className={`navSubItem${isSubActive ? " active" : ""}`}
                             href={subItem.path}
                             key={subItem.path}
                             aria-current={isSubActive ? "page" : undefined}
                           >
                             {subItem.label}
-                          </a>
+                          </Link>
                         );
                       })}
                     </div>

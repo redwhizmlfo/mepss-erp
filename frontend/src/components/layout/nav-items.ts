@@ -1,12 +1,9 @@
 import {
-  BarChart3,
   Boxes,
   LayoutDashboard,
   ReceiptText,
   Settings,
   ShoppingCart,
-  Siren,
-  Truck,
   UsersRound
 } from "lucide-react";
 
@@ -34,14 +31,7 @@ export const navItems = [
     path: "/inventory/products",
     icon: Boxes,
     permission: "inventario",
-    children: ["Productos", "Categorías", "Stock", "Kardex", "Ajustes"]
-  },
-  {
-    label: "Proveedores y pedidos",
-    path: "/suppliers",
-    icon: Truck,
-    permission: "proveedores",
-    children: ["Proveedores", "Pedidos", "Recepción", "Historial"]
+    children: ["Productos", "Categorias", "Stock", "Kardex", "Ajustes"]
   },
   {
     label: "Clientes",
@@ -58,24 +48,10 @@ export const navItems = [
     children: ["Lista", "Asistencias", "Boletas"]
   },
   {
-    label: "Pérdidas",
-    path: "/losses",
-    icon: Siren,
-    permission: "perdidas",
-    children: ["Registrar", "Historial", "Motivos"]
-  },
-  {
-    label: "Reportes",
-    path: "/reports",
-    icon: BarChart3,
-    permission: "reportes",
-    children: ["Ventas", "Inventario", "Nómina", "Exportar"]
-  },
-  {
-    label: "Administración",
+    label: "Administracion",
     path: "/admin/users",
     icon: Settings,
     permission: "usuarios",
-    children: ["Usuarios", "Roles", "Permisos", "Auditoría"]
+    children: ["Usuarios", "Roles", "Permisos", "Auditoria"]
   }
 ];
