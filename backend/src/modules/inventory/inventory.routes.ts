@@ -1,8 +1,12 @@
 import { Router } from "express";
 import { prisma } from "../../shared/prisma.js";
 import { asyncHandler } from "../../shared/async-handler.js";
+import { authenticate } from "../../shared/auth-middleware.js";
+import { HttpError } from "../../shared/http-error.js";
 
 export const inventoryRouter = Router();
+
+const generateSlug = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "");
 
 inventoryRouter.get(
   "/products",
@@ -97,9 +101,6 @@ inventoryRouter.post(
   asyncHandler(async (req, res) => {
     const data = req.body;
     
-    // Slugify helper
-    const generateSlug = (str: string) => str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
-
     // 1. Find or create the category
     const categoryName = (data.categoryName || "General").trim();
     const categorySlug = generateSlug(categoryName);
@@ -147,5 +148,65 @@ inventoryRouter.post(
     });
 
     res.status(201).json(product);
+  })
+);
+
+inventoryRouter.put(
+  "/products/:id",
+  authenticate,
+  asyncHandler(async (req, res) => {
+    const productId = String(req.params.id);
+    const existing = await prisma.product.findUnique({
+      where: { id: productId }
+    });
+
+    if (!existing) {
+      throw new HttpError(404, "Producto no encontrado");
+    }
+
+    const data = req.body;
+    let categoryId = existing.categoryId;
+
+    if (data.categoryName) {
+      const categoryName = String(data.categoryName).trim();
+      const categorySlug = generateSlug(categoryName);
+      const category = await prisma.category.upsert({
+        where: { name: categoryName },
+        update: { slug: categorySlug },
+        create: {
+          name: categoryName,
+          slug: categorySlug
+        }
+      });
+      categoryId = category.id;
+    } else if (data.categoryId) {
+      categoryId = String(data.categoryId);
+    }
+
+    const product = await prisma.product.update({
+      where: { id: existing.id },
+      data: {
+        categoryId,
+        name: data.name ?? existing.name,
+        brand: data.brand ?? existing.brand,
+        modelCode: data.modelCode ?? existing.modelCode,
+        specs: data.specs ?? existing.specs,
+        unitName: data.unitName ?? existing.unitName,
+        stock: data.stock ?? existing.stock,
+        reservedQty: data.reservedQty ?? existing.reservedQty,
+        minStock: data.minStock ?? existing.minStock,
+        salePrice: data.salePrice ?? existing.salePrice,
+        costPrice: data.costPrice ?? existing.costPrice,
+        iconCode: data.iconCode ?? existing.iconCode,
+        imageUrl: data.imageUrl ?? existing.imageUrl,
+        description: data.description ?? existing.description,
+        active: data.active ?? existing.active
+      },
+      include: {
+        category: true
+      }
+    });
+
+    res.json(product);
   })
 );
