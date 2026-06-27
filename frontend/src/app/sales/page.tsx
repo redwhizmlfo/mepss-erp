@@ -1,5 +1,14 @@
-import { redirect } from "next/navigation";
+"use client";
+
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function SalesPage() {
-  redirect("/sales/pos");
+  const router = useRouter();
+
+  useEffect(() => {
+    router.replace("/sales/pos");
+  }, [router]);
+
+  return null;
 }
