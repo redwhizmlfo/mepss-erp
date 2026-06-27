@@ -98,14 +98,43 @@ export function SalesPosView({
 
   // ─── Productos filtrados ─────────────────────────────────────────────────
   const filtered = useMemo(() => {
-    return products.filter((p) => {
-      const matchCat = activeCategory === "all" || p.category.id === activeCategory;
-      const matchSearch =
-        !search ||
-        p.name.toLowerCase().includes(search.toLowerCase()) ||
-        (p.description ?? "").toLowerCase().includes(search.toLowerCase());
-      return matchCat && matchSearch;
-    });
+    let result = products;
+
+    if (activeCategory !== "all") {
+      result = result.filter(p => p.category.id === activeCategory);
+    }
+
+    if (search) {
+      const stopwords = new Set(["de", "del", "la", "el", "las", "los", "un", "una", "con", "para", "por", "y", "o", "en", "al"]);
+      const terms = Array.from(new Set(
+        search.trim().toLowerCase().split(/\s+/).filter(t => t.length > 0 && !stopwords.has(t))
+      ));
+      
+      if (terms.length > 0) {
+        const scored = result.map(p => {
+          let score = 0;
+          const searchableText = [
+            p.name, p.description, p.brand, p.modelCode, p.specs, p.unitName, p.category.name
+          ].filter(Boolean).join(" ").toLowerCase();
+
+          for (const term of terms) {
+            if (searchableText.includes(term)) {
+              score++;
+            }
+          }
+          return { product: p, score };
+        }).filter(sp => sp.score > 0);
+
+        scored.sort((a, b) => {
+          if (b.score !== a.score) return b.score - a.score;
+          return a.product.name.localeCompare(b.product.name);
+        });
+
+        result = scored.map(sp => sp.product);
+      }
+    }
+
+    return result;
   }, [products, activeCategory, search]);
 
   // ─── Totales ─────────────────────────────────────────────────────────────

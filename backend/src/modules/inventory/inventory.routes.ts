@@ -11,12 +11,28 @@ inventoryRouter.get(
     const categoryId = req.query.categoryId as string | undefined;
 
     const where: any = { active: true };
+    let terms: string[] = [];
 
     if (q) {
-      where.OR = [
-        { name: { contains: q, mode: "insensitive" } },
-        { description: { contains: q, mode: "insensitive" } }
-      ];
+      const stopwords = new Set(["de", "del", "la", "el", "las", "los", "un", "una", "con", "para", "por", "y", "o", "en", "al"]);
+      terms = Array.from(new Set(
+        q.trim().split(/\s+/).map(t => t.toLowerCase()).filter(t => t.length > 0 && !stopwords.has(t))
+      ));
+      
+      if (terms.length > 0) {
+        // Find products that match AT LEAST ONE of the search terms
+        where.OR = terms.map(term => ({
+          OR: [
+            { name: { contains: term, mode: "insensitive" } },
+            { description: { contains: term, mode: "insensitive" } },
+            { brand: { contains: term, mode: "insensitive" } },
+            { modelCode: { contains: term, mode: "insensitive" } },
+            { specs: { contains: term, mode: "insensitive" } },
+            { unitName: { contains: term, mode: "insensitive" } },
+            { category: { name: { contains: term, mode: "insensitive" } } }
+          ]
+        }));
+      }
     }
 
     if (categoryId) {
@@ -27,11 +43,39 @@ inventoryRouter.get(
       where,
       include: {
         category: true
-      },
-      orderBy: { name: "asc" }
+      }
     });
 
-    res.json(products);
+    let results = products;
+    if (terms.length > 0) {
+      // Score each product based on how many terms match its text
+      const scoredProducts = products.map(p => {
+        let score = 0;
+        const searchableText = [
+          p.name, p.description, p.brand, p.modelCode, p.specs, p.unitName, p.category?.name
+        ].filter(Boolean).join(" ").toLowerCase();
+
+        for (const term of terms) {
+          if (searchableText.includes(term)) {
+            score++;
+          }
+        }
+        return { product: p, score };
+      });
+
+      // Sort by score descending, then by name ascending
+      scoredProducts.sort((a, b) => {
+        if (b.score !== a.score) return b.score - a.score;
+        return a.product.name.localeCompare(b.product.name);
+      });
+
+      results = scoredProducts.map(sp => sp.product);
+    } else {
+      // Default sort by name
+      results.sort((a, b) => a.name.localeCompare(b.name));
+    }
+
+    res.json(results);
   })
 );
 
