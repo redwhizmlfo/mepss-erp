@@ -19,7 +19,8 @@ export const app = express();
 const allowedOrigins = new Set([
   env.FRONTEND_URL,
   "http://localhost:3000",
-  "https://mepss-erp-frontend.vercel.app"
+  "https://mepss-erp-frontend.vercel.app",
+  "https://redwhizmlfo.github.io"
 ]);
 
 app.use(helmet());
