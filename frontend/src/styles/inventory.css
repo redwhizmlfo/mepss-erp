@@ -52,6 +52,54 @@
   box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
 }
 
+.inventorySearchBar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--muted);
+}
+
+.inventorySearchBar:focus-within {
+  border-color: rgba(255, 184, 0, 0.32);
+  box-shadow: 0 0 0 3px rgba(255, 184, 0, 0.08);
+}
+
+.inventorySearchBar input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--clr-on-surface);
+  font: inherit;
+}
+
+.inventorySearchBar input::placeholder {
+  color: rgba(255, 255, 255, 0.38);
+}
+
+.inventorySearchBar button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--clr-on-surface);
+  cursor: pointer;
+}
+
+.inventorySearchBar button:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
 /* ─── CATEGORY ACCORDION ─────────────────────────────────────────────────── */
 .accCategory {
   background: rgba(255, 255, 255, 0.04);
