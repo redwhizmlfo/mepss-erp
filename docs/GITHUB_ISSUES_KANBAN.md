@@ -95,7 +95,7 @@ Duracion sugerida del proyecto: 90 dias.
 
 Tipo: Tarea  
 Prioridad: Alta  
-Estado: In Progress  
+Estado: Done  
 Sprint: Sprint 1  
 Responsable: Por asignar  
 Duracion: 2 dias
@@ -131,7 +131,7 @@ Criterios de aceptacion:
 
 Tipo: Tarea  
 Prioridad: Alta  
-Estado: To Do  
+Estado: Done  
 Sprint: Sprint 1  
 Responsable: Por asignar  
 Duracion: 3 dias
@@ -168,7 +168,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: To Do  
+Estado: Done  
 Sprint: Sprint 1  
 Responsable: Por asignar  
 Duracion: 2 dias
@@ -200,7 +200,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: To Do  
+Estado: In Progress  
 Sprint: Sprint 1  
 Responsable: Por asignar  
 Duracion: 4 dias
@@ -234,7 +234,7 @@ Criterios de aceptacion:
 
 Tipo: Tarea  
 Prioridad: Alta  
-Estado: To Do  
+Estado: Done  
 Sprint: Sprint 1  
 Responsable: Por asignar  
 Duracion: 2 dias
@@ -267,7 +267,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: In Progress  
+Estado: Done  
 Sprint: Sprint 2  
 Responsable: Por asignar  
 Duracion: 4 dias
@@ -333,7 +333,7 @@ Checklist:
 
 Tipo: Tarea  
 Prioridad: Alta  
-Estado: In Progress  
+Estado: Done  
 Sprint: Sprint 2  
 Responsable: Por asignar  
 Duracion: 3 dias
@@ -369,7 +369,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: In Progress  
+Estado: Done  
 Sprint: Sprint 2  
 Responsable: Por asignar  
 Duracion: 3 dias
@@ -413,7 +413,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: Backlog  
+Estado: In Progress  
 Sprint: Sprint 3  
 Responsable: Por asignar  
 Duracion: 5 dias
@@ -447,7 +447,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: Backlog  
+Estado: In Progress  
 Sprint: Sprint 4  
 Responsable: Por asignar  
 Duracion: 6 dias
@@ -518,7 +518,7 @@ Criterios de aceptacion:
 
 Tipo: Historia de usuario  
 Prioridad: Alta  
-Estado: Backlog  
+Estado: In Progress  
 Sprint: Sprint 5  
 Responsable: Por asignar  
 Duracion: 6 dias
@@ -616,7 +616,37 @@ Criterios de aceptacion:
 - Los bugs encontrados tienen Issue.
 - La app compila despues de correcciones.
 
-## 5. Plantilla general para cada Issue
+## 5. Auditoria de estados verificados
+
+Revision realizada: 2026-06-27
+
+Los estados se actualizaron verificando la estructura real del repositorio, rutas implementadas, modulos frontend, endpoints backend y validaciones ejecutadas durante el trabajo.
+
+| Issue | Estado actualizado | Evidencia verificada | Observacion |
+| --- | --- | --- | --- |
+| #1 Base monorepo Next.js + Node.js + Prisma | Done | Existen `frontend`, `backend`, workspaces, Prisma, Docker Compose y builds ejecutados durante el proyecto. | Base tecnica completada. |
+| #2 Mapear base de datos con Prisma | Done | Existe `backend/prisma/schema.prisma` con modelos principales, migraciones y `prisma generate` usado en CI. | Modelo base operativo. |
+| #3 Navbar/sidebar de modulos | Done | Existe `AppShell`, `nav-items.ts`, sidebar, submodulos y filtrado por permisos. | Navegacion funcional. |
+| #4 Dashboard ejecutivo avanzado | In Progress | Existe UI de dashboard y endpoint backend de dashboard. | La UI aun usa datos estaticos en parte; falta conexion completa a metricas reales. |
+| #5 Endpoints base de dashboard | Done | Existe `backend/src/modules/reports/dashboard.routes.ts` y `dashboard.service.ts`. | Endpoint backend disponible. |
+| #6 Autenticacion JWT | Done | Existen login, JWT, middleware, `/auth/me`, `AuthGate`, persistencia de sesion y logout. | Se corrigio hidratacion de auth. |
+| #7 Permisos por modulo | In Progress | Existen permisos y filtrado de navegacion. | Queda validar usuario empleado/no admin desde login. |
+| #14 Administracion backend de usuarios | Done | Existen rutas, controller, repository, service y schemas de usuarios. | Flujo admin backend implementado. |
+| #15 Administracion frontend de usuarios | Done | Existe `/admin/users`, listado, formulario y editor de permisos. | Pantalla administrativa funcional. |
+| #8 CRUD de productos e inventario | In Progress | Existen listado, categorias, creacion, actualizacion backend, imagenes, busqueda natural y vista inventario. | Falta completar edicion/desactivacion desde UI. |
+| #9 POS y ventas transaccionales | In Progress | Existe POS, carrito, clientes, metodos de pago, comprobantes, creacion de venta y descuento de stock. | Falta cerrar pruebas funcionales completas y casos borde. |
+| #10 Pedidos a proveedor y recepcion | Backlog | No existe modulo frontend/backend completo de proveedores y recepcion. | Pendiente para siguiente etapa. |
+| #11 Empleados, asistencia y salarios | In Progress | Existen rutas backend y vistas de empleados, asistencia y boletas. | Falta completar validacion funcional integral. |
+| #12 Reportes avanzados | Backlog | Solo existe dashboard base. | Reportes cruzados avanzados pendientes. |
+| #13 Testing funcional del flujo principal | Backlog | Se han hecho verificaciones puntuales, pero no suite completa ni cierre formal de QA. | Pendiente como actividad de cierre. |
+
+Regla aplicada:
+
+- `Done`: implementado, visible en el repositorio y validado con build, TypeScript o prueba funcional.
+- `In Progress`: existe implementacion parcial o funcionalidad principal, pero quedan pruebas, UI o casos de cierre.
+- `Backlog`: no existe modulo funcional completo en frontend/backend.
+
+## 6. Plantilla general para cada Issue
 
 ```md
 ## Tipo
@@ -664,7 +694,7 @@ Explicar brevemente que se debe desarrollar, corregir o documentar.
 - [ ] Se creo Pull Request para revision.
 ```
 
-## 6. Convencion de ramas
+## 7. Convencion de ramas
 
 Ramas sugeridas:
 
@@ -683,7 +713,7 @@ bugfix/issue-{numero}-{descripcion-corta}
 docs/issue-{numero}-{descripcion-corta}
 ```
 
-## 7. Convencion de commits
+## 8. Convencion de commits
 
 Formato recomendado:
 
@@ -699,7 +729,7 @@ Ejemplos:
 - `docs(github): documenta flujo de issues`
 - `test(sales): cubre venta sin stock`
 
-## 8. Resultado esperado en GitHub
+## 9. Resultado esperado en GitHub
 
 Cada Issue debe tener:
 
@@ -713,7 +743,7 @@ Cada Issue debe tener:
 | Estado | Permite moverlo en el tablero Kanban |
 | Criterios de aceptacion | Define cuando se considera terminado |
 
-## 9. Regla de mantenimiento
+## 10. Regla de mantenimiento
 
 A medida que se implemente el proyecto:
 
