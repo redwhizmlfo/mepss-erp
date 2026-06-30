@@ -71,7 +71,7 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
 
       <aside className="authAside">
         <div className="authImageWrap" aria-hidden="true">
-          <img src="/fere.png" alt="" />
+          <img src="/login-ferreteria-corporativa.png" alt="" />
         </div>
       </aside>
     </main>
