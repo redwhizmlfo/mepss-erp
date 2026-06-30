@@ -9,6 +9,14 @@ on:
     branches:
       - main
       - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-cd-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -30,6 +38,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependencias
         run: npm ci
@@ -37,11 +46,14 @@ jobs:
       - name: Generar cliente Prisma
         run: npm run prisma:generate
 
-      - name: Validar TypeScript del backend
-        run: npm run lint -w backend
+      - name: Validar TypeScript
+        run: npm run lint
 
-      - name: Compilar backend y frontend
-        run: npm run build
+      - name: Compilar backend
+        run: npm run build -w backend
+
+      - name: Compilar frontend
+        run: npm run build -w frontend
 
   deploy-info:
     name: Informacion de despliegue

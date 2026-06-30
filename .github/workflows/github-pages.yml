@@ -34,12 +34,16 @@ jobs:
         with:
           node-version: 22
           cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: Instalar dependencias
         run: npm ci
 
       - name: Compilar frontend estatico
         run: npm run build -w frontend
+
+      - name: Verificar salida estatica
+        run: test -d frontend/out
 
       - name: Configurar GitHub Pages
         uses: actions/configure-pages@v5
