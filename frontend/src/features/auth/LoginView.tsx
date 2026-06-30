@@ -9,8 +9,8 @@ type LoginViewProps = {
 };
 
 export function LoginView({ error, onSubmit }: LoginViewProps) {
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("admin123");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -43,12 +43,18 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
             <span>Usuario</span>
             <div className="fieldShell">
               <UserRound size={18} />
-              <input value={username} onChange={(event) => setUsername(event.target.value)} autoComplete="username" />
+              <input
+                value={username}
+                onChange={(event) => setUsername(event.target.value)}
+                autoComplete="username"
+                placeholder="Usuario"
+                required
+              />
             </div>
           </label>
 
           <label>
-            <span>Contraseña</span>
+            <span>Contrasena</span>
             <div className="fieldShell">
               <LockKeyhole size={18} />
               <input
@@ -56,6 +62,8 @@ export function LoginView({ error, onSubmit }: LoginViewProps) {
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
                 autoComplete="current-password"
+                placeholder="Contrasena"
+                required
               />
             </div>
           </label>

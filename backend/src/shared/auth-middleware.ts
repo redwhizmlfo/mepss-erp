@@ -33,7 +33,7 @@ export function signAccessToken(user: AuthUser) {
     env.JWT_SECRET,
     {
       subject: user.id,
-      expiresIn: "8h"
+      expiresIn: "2h"
     }
   );
 }
