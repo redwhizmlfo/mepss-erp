@@ -1,0 +1,39 @@
+{\rtf1\ansi\deff0{\fonttbl{\f0 Calibri;}{\f1 Consolas;}}
+\pard\f0\b\fs32 MEPSS ERP\b0\fs22\par
+\pard\f0\b\fs28 Implementacion de CI/CD con GitHub Actions\b0\fs22\par
+\pard\f0\fs22 Documento de entrega tecnica\par
+\pard\f0\fs22 Repositorio: redwhizmlfo/mepss-erp\par
+\pard\f0\fs22 Fecha: 27/06/2026\par
+\pard\f0\b\fs32 1. Descripcion general\b0\fs22\par
+\pard\f0\fs22 El proyecto MEPSS ERP utiliza una arquitectura cliente-servidor. El frontend esta construido con Next.js y React, el backend con Node.js, Express y TypeScript, y la base de datos con PostgreSQL mediante Prisma ORM.\par
+\pard\f0\fs22 Para apoyar la validacion y el despliegue del proyecto se configuraron workflows de GitHub Actions. Estos workflows permiten automatizar la integracion continua y preparar un despliegue basico del frontend en GitHub Pages.\par
+\pard\f0\b\fs32 2. Descripcion de CI\b0\fs22\par
+\pard\f0\fs22 La integracion continua se implementa mediante el archivo .github/workflows/ci-cd.yml. Este workflow se ejecuta cuando se realiza un push o pull request hacia las ramas main o master.\par
+\pard\f0\fs22 El objetivo del CI es comprobar que el proyecto pueda instalar dependencias, generar el cliente Prisma, validar TypeScript del backend y compilar correctamente backend y frontend.\par
+\pard\f0\fs22 Flujo general del CI:\par
+\pard\f1\fs18 Push o Pull Request\line   -> GitHub Actions\line   -> Instalar dependencias\line   -> Generar cliente Prisma\line   -> Validar TypeScript del backend\line   -> Compilar backend y frontend\f0\fs22\par
+\pard\f0\b\fs32 3. 4.1.4 Implementacion de Script CI\b0\fs22\par
+\pard\f0\b\fs28 CI Action\b0\fs22\par
+\pard\f0\fs22 Archivo utilizado: .github/workflows/ci-cd.yml\par
+\pard\f0\fs22 Nombre del workflow: CI/CD MEPSS ERP\par
+\pard\f0\fs22 Trabajo principal: Validar backend y frontend\par
+\pard\f0\fs22 Pasos implementados: 1) checkout, 2) Node.js 22, 3) npm ci, 4) Prisma generate, 5) TypeScript backend, 6) build backend y frontend.\par
+\pard\f0\fs22 Comandos principales ejecutados por el CI:\par
+\pard\f1\fs18 npm ci\line npm run prisma:generate\line npm run lint -w backend\line npm run build\f0\fs22\par
+\pard\f0\b\fs32 4. 4.1.5 Implementacion de Script CD basico\b0\fs22\par
+\pard\f0\b\fs28 CD Action\b0\fs22\par
+\pard\f0\fs22 El despliegue continuo basico se implementa mediante el archivo .github/workflows/github-pages.yml. Este workflow compila el frontend como sitio estatico y lo publica en GitHub Pages.\par
+\pard\f0\fs22 El sistema completo es dinamico, por lo que GitHub Pages publica solamente el frontend. El backend continua desplegado en Render y la base de datos en Neon PostgreSQL.\par
+\pard\f0\fs22 Variables utilizadas para el despliegue en GitHub Pages:\par
+\pard\f1\fs18 GITHUB_PAGES=true\line NEXT_PUBLIC_API_URL=https://mepss-erp-api.onrender.com/api/v1\f0\fs22\par
+\pard\f0\b\fs32 5. URLs de despliegue\b0\fs22\par
+\pard\f1\fs18 Frontend Vercel: https://mepss-erp-frontend.vercel.app\line Frontend GitHub Pages: https://redwhizmlfo.github.io/mepss-erp/\line Backend Render: https://mepss-erp-api.onrender.com/api/v1\line Health check: https://mepss-erp-api.onrender.com/api/v1/health\f0\fs22\par
+\pard\f0\b\fs32 6. Observacion tecnica\b0\fs22\par
+\pard\f0\fs22 El repositorio contiene los scripts CI y CD preparados para GitHub Actions. En caso de que GitHub Actions este restringido por una condicion de billing de la cuenta, el despliegue de GitHub Pages puede mantenerse mediante la rama gh-pages.\par
+\page\pard\f0\b\fs32 Anexo A: Script CI completo\b0\fs22\par
+\pard\f0\fs22 Archivo: .github/workflows/ci-cd.yml\par
+\pard\f1\fs18 name: CI/CD MEPSS ERP\line \line on:\line   push:\line     branches:\line       - main\line       - master\line   pull_request:\line     branches:\line       - main\line       - master\line \line jobs:\line   validate:\line     name: Validar backend y frontend\line     runs-on: ubuntu-latest\line \line     env:\line       DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ferremas_db?schema=public\line       JWT_SECRET: github-actions-secret\line       FRONTEND_URL: http://localhost:3000\line       NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1\line \line     steps:\line       - name: Descargar codigo\line         uses: actions/checkout@v4\line \line       - name: Configurar Node.js\line         uses: actions/setup-node@v4\line         with:\line           node-version: 22\line           cache: npm\line \line       - name: Instalar dependencias\line         run: npm ci\line \line       - name: Generar cliente Prisma\line         run: npm run prisma:generate\line \line       - name: Validar TypeScript del backend\line         run: npm run lint -w backend\line \line       - name: Compilar backend y frontend\line         run: npm run build\line \line   deploy-info:\line     name: Informacion de despliegue\line     runs-on: ubuntu-latest\line     needs: validate\line     if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')\line \line     steps:\line       - name: Confirmar flujo de despliegue\line         run: |\line           echo "Validacion completada."\line           echo "Frontend: desplegar desde Vercel conectado al repositorio."\line           echo "Backend: desplegar desde Render conectado al repositorio."\line           echo "Base de datos: usar PostgreSQL en Neon con DATABASE_URL configurado en Render."\f0\fs22\par
+\page\pard\f0\b\fs32 Anexo B: Script CD completo\b0\fs22\par
+\pard\f0\fs22 Archivo: .github/workflows/github-pages.yml\par
+\pard\f1\fs18 name: Deploy Frontend to GitHub Pages\line \line on:\line   push:\line     branches:\line       - main\line       - master\line   workflow_dispatch:\line \line permissions:\line   contents: read\line   pages: write\line   id-token: write\line \line concurrency:\line   group: github-pages\line   cancel-in-progress: false\line \line jobs:\line   build:\line     name: Build static frontend\line     runs-on: ubuntu-latest\line \line     env:\line       GITHUB_PAGES: "true"\line       NEXT_PUBLIC_API_URL: https://mepss-erp-api.onrender.com/api/v1\line \line     steps:\line       - name: Descargar codigo\line         uses: actions/checkout@v4\line \line       - name: Configurar Node.js\line         uses: actions/setup-node@v4\line         with:\line           node-version: 22\line           cache: npm\line \line       - name: Instalar dependencias\line         run: npm ci\line \line       - name: Compilar frontend estatico\line         run: npm run build -w frontend\line \line       - name: Configurar GitHub Pages\line         uses: actions/configure-pages@v5\line \line       - name: Subir artefacto\line         uses: actions/upload-pages-artifact@v3\line         with:\line           path: frontend/out\line \line   deploy:\line     name: Deploy GitHub Pages\line     runs-on: ubuntu-latest\line     needs: build\line     environment:\line       name: github-pages\line       url: $\{\{ steps.deployment.outputs.page_url \}\}\line \line     steps:\line       - name: Publicar en GitHub Pages\line         id: deployment\line         uses: actions/deploy-pages@v4\f0\fs22\par
+}

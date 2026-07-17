@@ -84,3 +84,29 @@ Frontend:
 - Protocolo de sincronizacion con GitHub: `docs/PROTOCOLO_SINCRONIZACION_GITHUB.md`.
 - Referencias visuales del flujo de Issues/Kanban/GitFlow: `docs/REFERENCIAS_VISUALES_GITHUB.md`.
 - Plantilla de Issues: `.github/ISSUE_TEMPLATE/actividad.md`.
+
+## Nueva Arquitectura de Despliegue con Docker y CI/CD
+
+El proyecto puede desplegarse usando un entorno completamente contenerizado vía Docker Compose que funciona de manera independiente al despliegue en Vercel, Render y Neon. Esto permite:
+- Validación local consistente.
+- Ejecución de pruebas E2E.
+- CI/CD validado mediante GitHub Actions.
+
+### Inicio rápido con Docker
+
+```bash
+cp .env.docker.example .env
+docker compose build
+docker compose up -d
+docker compose ps
+```
+
+### Documentación Adicional
+
+- [Despliegue con Docker](docs/despliegue/DESPLIEGUE_DOCKER.md)
+- [Workflow de GitHub Actions (CI/CD)](docs/despliegue/GITHUB_ACTIONS_DOCKER.md)
+- [Manual de Usuario de GitHub](docs/gestion-github/MANUAL_USUARIO_GITHUB.md)
+- [Manual de Usuario del Software](docs/manual-software/MANUAL_USUARIO_SOFTWARE.md)
+- [Guía de Capturas Requeridas](docs/evidencias/GUIA_CAPTURAS.md)
+
+> **Aclaración**: El despliegue con Docker y el workflow en Actions actúan como alternativas y verificaciones adicionales. **No reemplazan** la configuración actual en Vercel (Frontend), Render (Backend) o Neon (PostgreSQL), los cuales permanecen totalmente funcionales.
