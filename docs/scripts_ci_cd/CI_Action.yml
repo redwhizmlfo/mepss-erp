@@ -1,0 +1,58 @@
+name: CI/CD MEPSS ERP
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  validate:
+    name: Validar backend y frontend
+    runs-on: ubuntu-latest
+
+    env:
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/ferremas_db?schema=public
+      JWT_SECRET: github-actions-secret
+      FRONTEND_URL: http://localhost:3000
+      NEXT_PUBLIC_API_URL: http://localhost:4000/api/v1
+
+    steps:
+      - name: Descargar codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Generar cliente Prisma
+        run: npm run prisma:generate
+
+      - name: Validar TypeScript del backend
+        run: npm run lint -w backend
+
+      - name: Compilar backend y frontend
+        run: npm run build
+
+  deploy-info:
+    name: Informacion de despliegue
+    runs-on: ubuntu-latest
+    needs: validate
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+
+    steps:
+      - name: Confirmar flujo de despliegue
+        run: |
+          echo "Validacion completada."
+          echo "Frontend: desplegar desde Vercel conectado al repositorio."
+          echo "Backend: desplegar desde Render conectado al repositorio."
+          echo "Base de datos: usar PostgreSQL en Neon con DATABASE_URL configurado en Render."
